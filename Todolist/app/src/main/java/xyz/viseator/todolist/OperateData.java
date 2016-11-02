@@ -18,7 +18,7 @@ public class OperateData {
         this.context = context;
         dataBase = new DataBase(context);
         db = dataBase.getWritableDatabase();
-
+        initTable();
     }
 
     public void initTable(){
@@ -31,11 +31,13 @@ public class OperateData {
         db.execSQL("INSERT INTO " + DataBase.TABLE_NAME + " (title,context) VALUES ('title6','context6')");
         db.setTransactionSuccessful();
         db.endTransaction();
-        db.close();
     }
 
     public String getTitle(int position) {
-        Cursor c = db.rawQuery("SELECT * FROM " + DataBase.TABLE_NAME + " WHERE id = ?", new String[]{String.valueOf(position)});
+//        Cursor c = db.query(DataBase.TABLE_NAME,)
+        Cursor c = db.rawQuery("SELECT title FROM " + DataBase.TABLE_NAME + " WHERE id = ?", new String[]{String.valueOf(position)});
+//        Cursor c = db.rawQuery("SELECT title FROM " + DataBase.TABLE_NAME + " WHERE id = 1",null);
+        c.moveToFirst();
         return c.getString(c.getColumnIndex("title"));
     }
 

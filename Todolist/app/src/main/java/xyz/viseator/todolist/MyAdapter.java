@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +15,9 @@ import android.widget.TextView;
  */
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
-    private String[] dataset;
+//    private String[] dataset;
     private Context context;
+    private OperateData db;
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
@@ -28,9 +30,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         }
     }
 
-    public MyAdapter(String[] dataset,Context context){
-        this.dataset = dataset;
+    public MyAdapter(OperateData db,Context context){
+//        this.dataset = dataset;
         this.context = context;
+        this.db = db;
     }
 
 
@@ -44,12 +47,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(MyAdapter.ViewHolder holder, int position) {
         int pos = position;
-        holder.textView.setText(dataset[pos]);
+
+        holder.textView.setText(db.getTitle(pos+1));
     }
 
     @Override
     public int getItemCount() {
-        return dataset.length;
+        return 6;
     }
 
 

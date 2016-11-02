@@ -18,19 +18,26 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private LinearLayoutManager layoutManager;
-
-    private String[] dataset = {"one", "two", "three", "four", "five"};
+    private OperateData db;
+//    private String[] dataset = {"one", "two", "three", "four", "five"};
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        db = new OperateData(this);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         layoutManager=new LinearLayoutManager(this);
-        adapter = new MyAdapter(dataset,this);
+        adapter = new MyAdapter(db,this);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
     }
 
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        db.closedb();
+    }
 }
 
