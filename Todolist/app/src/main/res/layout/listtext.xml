@@ -6,11 +6,84 @@
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     android:id="@+id/cv_item"
-    card_view:cardCornerRadius="4dp">
+    card_view:cardCornerRadius="4dp"
+    card_view:cardElevation="8dp">
 
-    <TextView
-        android:id="@+id/text_view"
-        android:padding="20dp"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/text_view_title"
+            android:paddingTop="5dp"
+            android:paddingLeft="20dp"
+            android:textSize="30sp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/text_view_creTime"
+            android:paddingRight="5dp"
+            android:textSize="15sp"
+            android:textColor="@color/LightGrey"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@id/text_view_title"
+            android:paddingTop="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/text_view_endTime"
+            android:paddingRight="5dp"
+            android:textSize="15sp"
+            android:textColor="@color/LightGrey"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/text_view_creTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/text_view_context"
+            android:textSize="20sp"
+            android:paddingLeft="35dp"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/text_view_title"/>
+
+        <TextView
+            android:id="@+id/done"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="7dp"
+            android:layout_toLeftOf="@+id/checkbox"
+            android:layout_alignBottom="@+id/checkbox"
+            android:layout_alignParentBottom="true"
+            android:text="Done:"
+            />
+
+        <CheckBox
+            android:id="@+id/checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:paddingRight="5dp"
+            />
+
+        <TextView
+            android:id="@+id/primer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="7dp"
+            android:textColor="@color/Red"
+            android:paddingRight="5dp"
+            android:layout_toLeftOf="@+id/done"
+            android:layout_alignBottom="@+id/checkbox"
+            android:layout_alignParentBottom="true"
+            />
+    </RelativeLayout>
+
 </android.support.v7.widget.CardView>

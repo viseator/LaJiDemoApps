@@ -23,27 +23,38 @@ public class OperateData {
 
     public void initTable(){
         db.beginTransaction();
-        db.execSQL("INSERT INTO " + DataBase.TABLE_NAME + " (title,context) VALUES ('title1','context1')");
-        db.execSQL("INSERT INTO " + DataBase.TABLE_NAME + " (title,context) VALUES ('title2','context2')");
-        db.execSQL("INSERT INTO " + DataBase.TABLE_NAME + " (title,context) VALUES ('title3','context3')");
-        db.execSQL("INSERT INTO " + DataBase.TABLE_NAME + " (title,context) VALUES ('title4','context4')");
-        db.execSQL("INSERT INTO " + DataBase.TABLE_NAME + " (title,context) VALUES ('title5','context5')");
-        db.execSQL("INSERT INTO " + DataBase.TABLE_NAME + " (title,context) VALUES ('title6','context6')");
+        db.execSQL("INSERT INTO " + DataBase.TABLE_NAME + " (title,context,creTime,endTime) VALUES ('title1','context1','20161024','20161024')");
+        db.execSQL("INSERT INTO " + DataBase.TABLE_NAME + " (title,context,creTime,endTime) VALUES ('title2','context2','20161024','20161024')");
+        db.execSQL("INSERT INTO " + DataBase.TABLE_NAME + " (title,context,creTime,endTime) VALUES ('title3','context3','20161024','20161024')");
+        db.execSQL("INSERT INTO " + DataBase.TABLE_NAME + " (title,context,creTime,endTime) VALUES ('title4','context4','20161024','20161024')");
+        db.execSQL("INSERT INTO " + DataBase.TABLE_NAME + " (title,context,creTime,endTime) VALUES ('title5','context5','20161024','20161024')");
+        db.execSQL("INSERT INTO " + DataBase.TABLE_NAME + " (title,context,creTime,endTime) VALUES ('title6','context6','20161024','20161024')");
         db.setTransactionSuccessful();
         db.endTransaction();
     }
 
     public String getTitle(int position) {
-//        Cursor c = db.query(DataBase.TABLE_NAME,)
-        Cursor c = db.rawQuery("SELECT title FROM " + DataBase.TABLE_NAME + " WHERE id = ?", new String[]{String.valueOf(position)});
-//        Cursor c = db.rawQuery("SELECT title FROM " + DataBase.TABLE_NAME + " WHERE id = 1",null);
+        Cursor c = db.rawQuery("SELECT * FROM " + DataBase.TABLE_NAME + " WHERE id = ?", new String[]{String.valueOf(position)});
         c.moveToFirst();
         return c.getString(c.getColumnIndex("title"));
     }
 
     public String getContext(int position) {
         Cursor c = db.rawQuery("SELECT * FROM " + DataBase.TABLE_NAME + " WHERE id = ?", new String[]{String.valueOf(position)});
+        c.moveToFirst();
         return c.getString(c.getColumnIndex("context"));
+    }
+
+    public String getCreTime(int position) {
+        Cursor c = db.rawQuery("SELECT * FROM " + DataBase.TABLE_NAME + " WHERE id = ?", new String[]{String.valueOf(position)});
+        c.moveToFirst();
+        return c.getString(c.getColumnIndex("creTime"));
+    }
+
+    public String getEndTime(int position) {
+        Cursor c = db.rawQuery("SELECT * FROM " + DataBase.TABLE_NAME + " WHERE id = ?", new String[]{String.valueOf(position)});
+        c.moveToFirst();
+        return c.getString(c.getColumnIndex("endTime"));
     }
 
     public void closedb(){

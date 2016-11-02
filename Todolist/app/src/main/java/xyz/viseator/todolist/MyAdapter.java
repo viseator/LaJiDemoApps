@@ -15,23 +15,29 @@ import android.widget.TextView;
  */
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
-//    private String[] dataset;
     private Context context;
     private OperateData db;
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
         CardView cardView;
-        TextView textView;
+        TextView textViewTitle;
+        TextView textViewContext;
+        TextView textViewcreTime;
+        TextView textViewendTime;
+        TextView textViewPri;
         public ViewHolder(View v){
             super(v);
             cardView = (CardView) v.findViewById(R.id.cv_item);
-            textView = (TextView) v.findViewById(R.id.text_view);
+            textViewTitle = (TextView) v.findViewById(R.id.text_view_title);
+            textViewContext = (TextView) v.findViewById(R.id.text_view_context);
+            textViewcreTime = (TextView) v.findViewById(R.id.text_view_creTime);
+            textViewendTime = (TextView) v.findViewById(R.id.text_view_endTime);
+            textViewPri = (TextView) v.findViewById(R.id.primer);
         }
     }
 
     public MyAdapter(OperateData db,Context context){
-//        this.dataset = dataset;
         this.context = context;
         this.db = db;
     }
@@ -47,8 +53,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(MyAdapter.ViewHolder holder, int position) {
         int pos = position;
-
-        holder.textView.setText(db.getTitle(pos+1));
+        holder.textViewTitle.setText(db.getTitle(pos+1));
+        holder.textViewContext.setText(db.getContext(pos+1));
+        holder.textViewcreTime.setText(db.getCreTime(pos+1));
+        holder.textViewendTime.setText(db.getEndTime(pos+1));
+        holder.textViewPri.setText("Important");
     }
 
     @Override

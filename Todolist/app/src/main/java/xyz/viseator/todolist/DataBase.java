@@ -20,13 +20,13 @@ public class DataBase extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (id INTEGER PRIMARY KEY AUTOINCREMENT,title TEXT,context TEXT)");
-//                " (id INTEGER PRIMARY KEY AUTOINCREMENT," +
-//                "title TEXT,text TEXT," +
-//                "creTime TEXT," +
-//                "endTime TEXT," +
-//                "primer INTEGER," +
-//                "done INTEGER)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME +
+                " (id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "title TEXT,context TEXT," +
+                "creTime TEXT," +
+                "endTime TEXT," +
+                "primer INTEGER," +
+                "done INTEGER)");
     }
 
     @Override
