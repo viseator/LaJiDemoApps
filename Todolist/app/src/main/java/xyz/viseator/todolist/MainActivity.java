@@ -15,7 +15,7 @@ import android.view.MenuItem;
 public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
-    private RecyclerView.LayoutManager layoutManager;
+    private LinearLayoutManager layoutManager;
 
     private String[] dataset = {"one", "two", "three", "four", "five"};
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -23,7 +23,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         layoutManager=new LinearLayoutManager(this);
-        adapter = new MyAdapter(dataset);
+        adapter = new MyAdapter(dataset,this);
+        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
     }
