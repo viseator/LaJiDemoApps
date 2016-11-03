@@ -50,5 +50,11 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         db.closedb();
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        adapter.notifyDataSetChanged();
+    }
 }
 

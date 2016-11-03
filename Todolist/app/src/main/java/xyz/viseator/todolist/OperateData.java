@@ -69,6 +69,7 @@ public class OperateData {
                 creTime+","+
                 endTime+","+
                 done+")");
+        db.setTransactionSuccessful();
         db.endTransaction();
     }
     public int count(){

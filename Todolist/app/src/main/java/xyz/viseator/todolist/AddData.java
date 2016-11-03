@@ -1,7 +1,6 @@
 package xyz.viseator.todolist;
 
 import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -47,28 +46,30 @@ public class AddData extends AppCompatActivity {
         });
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
                 String title = textTitle.getText().toString();
                 String content = textContent.getText().toString();
                 String month;
                 String day;
-                if(datePicker.getMonth()+1 <= 9)
-                    month = "0" + String.valueOf(datePicker.getMonth() + 1);
-                else month = String.valueOf(datePicker.getMonth() + 1);
+                if(datePicker.getMonth() <= 9)
+                    month = "0" + String.valueOf(datePicker.getMonth());
+                else month = String.valueOf(datePicker.getMonth());
 
                 if(datePicker.getDayOfMonth() <= 9)
-                    day = "0" + String.valueOf(datePicker.getMonth());
-                else day = String.valueOf(datePicker.getMonth());
-                String endTime = String.valueOf(datePicker.getYear()) + month + day;
-//                String endTime = String.valueOf(datePicker.getYear()) + month + day+" "+String.valueOf(timePicker.getHour())+":"+String.valueOf(timePicker.getMinute());
+                    day = "0" + String.valueOf(datePicker.getDayOfMonth());
+                else
+                    day = String.valueOf(datePicker.getDayOfMonth());
+//                String endTime = String.valueOf(datePicker.getYear()) + month + day;
+                String endTime = String.valueOf(datePicker.getYear()-1) + month + day+" "+String.valueOf(timePicker.getCurrentHour())+":"+String.valueOf(timePicker.getCurrentMinute());
                 String done = "0";
                 SimpleDateFormat format=new SimpleDateFormat("yyyyMMdd HH:mm");
                 String creTime = format.format(new java.util.Date());
 
+                Log.d("wudi endTime",endTime);
                 OperateData db = new OperateData(AddData.this);
-                db.setData("'"+title+"'","'"+content+"'","'"+creTime+"'","'"+endTime+"'","'"+done+"'");
+//                db.setData("'"+title+"'","'"+content+"'","'"+creTime+"'","'"+endTime+"'","'"+done+"'");
+                finish();
             }
         });
     }
