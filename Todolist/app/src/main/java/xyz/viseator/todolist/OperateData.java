@@ -58,10 +58,24 @@ public class OperateData {
         return c.getString(c.getColumnIndex("endTime"));
     }
 
+
+    public void setData(String title,String content,String creTime,String endTime,String done) {
+        db.beginTransaction();
+        db.execSQL("INSERT INTO " +
+                DataBase.TABLE_NAME +
+                " (title,context,creTime,endTime,done) VALUES ("+
+                title+","+
+                content+","+
+                creTime+","+
+                endTime+","+
+                done+")");
+        db.endTransaction();
+    }
     public int count(){
         Cursor c = db.rawQuery("SELECT * FROM " + DataBase.TABLE_NAME, null);
         return c.getCount();
     }
+
     public void closedb(){
         db.close();
     }
