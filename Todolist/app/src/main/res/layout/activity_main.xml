@@ -5,19 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    app:statusBarBackground="@color/colorPrimary"
     tools:context="xyz.viseator.todolist.MainActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="?actionBarSize">
+        android:layout_height="?actionBarSize"
+        app:theme="@style/ThemeOverlay.AppCompat.Light">
         <android.support.v7.widget.Toolbar
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:theme="@style/ThemeOverlay.AppCompat.Light"
+            app:layout_scrollFlags="scroll|enterAlways">
 
             <TextView
                 android:layout_gravity="center"
-                android:paddingBottom="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Xiao Yu Er"
@@ -27,7 +28,14 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_main" />
+    <android.support.v7.widget.RecyclerView
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:id="@+id/recyclerview"
+        android:scrollbars="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        />
+
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/addButton"
@@ -37,6 +45,7 @@
         android:elevation="8dp"
         android:src="@drawable/ic_add_48pt_3x"
         android:layout_gravity="bottom|right|end"
-        android:layout_margin="@dimen/fab_margin"/>
+        android:layout_margin="@dimen/fab_margin"
+        app:layout_behavior="xyz.viseator.todolist.ScrollAwareFABBehavior"/>
 
 </android.support.design.widget.CoordinatorLayout>

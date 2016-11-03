@@ -58,6 +58,12 @@ public class OperateData {
         return c.getString(c.getColumnIndex("endTime"));
     }
 
+    public boolean getCheck(int position){
+        Cursor c = db.rawQuery("SELECT * FROM " + DataBase.TABLE_NAME + " WHERE id = ?", new String[]{String.valueOf(position)});
+        c.moveToFirst();
+        if (c.getInt(c.getColumnIndex("done"))==1) return true;
+        else return false;
+    }
 
     public void setData(String title,String content,String creTime,String endTime,String done) {
         db.beginTransaction();

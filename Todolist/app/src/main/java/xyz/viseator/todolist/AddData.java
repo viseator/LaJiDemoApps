@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class AddData extends AppCompatActivity {
     private TimePicker timePicker;
@@ -20,6 +21,10 @@ public class AddData extends AppCompatActivity {
     private EditText textTitle;
     private EditText textContent;
     private FloatingActionButton floatingActionButton;
+    private int month;
+    private int day;
+    private int hour;
+    private int min;
 
 
     @Override
@@ -44,31 +49,22 @@ public class AddData extends AppCompatActivity {
                 finish();
             }
         });
-
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String title = textTitle.getText().toString();
                 String content = textContent.getText().toString();
-                String month;
-                String day;
-                if(datePicker.getMonth() <= 9)
-                    month = "0" + String.valueOf(datePicker.getMonth());
-                else month = String.valueOf(datePicker.getMonth());
-
-                if(datePicker.getDayOfMonth() <= 9)
-                    day = "0" + String.valueOf(datePicker.getDayOfMonth());
-                else
-                    day = String.valueOf(datePicker.getDayOfMonth());
-//                String endTime = String.valueOf(datePicker.getYear()) + month + day;
-                String endTime = String.valueOf(datePicker.getYear()-1) + month + day+" "+String.valueOf(timePicker.getCurrentHour())+":"+String.valueOf(timePicker.getCurrentMinute());
                 String done = "0";
                 SimpleDateFormat format=new SimpleDateFormat("yyyyMMdd HH:mm");
                 String creTime = format.format(new java.util.Date());
 
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(datePicker.getYear(),datePicker.getMonth(),datePicker.getDayOfMonth(),timePicker.getCurrentHour(),timePicker.getCurrentMinute());
+                SimpleDateFormat format1=new SimpleDateFormat("yyyyMMdd HH:mm");
+                String endTime = format1.format(calendar.getTime());
                 Log.d("wudi endTime",endTime);
                 OperateData db = new OperateData(AddData.this);
-//                db.setData("'"+title+"'","'"+content+"'","'"+creTime+"'","'"+endTime+"'","'"+done+"'");
+                db.setData("'"+title+"'","'"+content+"'","'"+creTime+"'","'"+endTime+"'","'"+done+"'");
                 finish();
             }
         });

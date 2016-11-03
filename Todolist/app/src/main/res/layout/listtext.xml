@@ -58,14 +58,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="7dp"
-            android:layout_toLeftOf="@+id/checkbox"
-            android:layout_alignBottom="@+id/checkbox"
+            android:layout_toLeftOf="@+id/checkBox"
+            android:layout_alignBottom="@+id/checkBox"
             android:layout_alignParentBottom="true"
             android:text="Done:"
             />
 
         <CheckBox
-            android:id="@+id/checkbox"
+            android:id="@+id/checkBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -81,7 +81,7 @@
             android:textColor="@color/Red"
             android:paddingRight="5dp"
             android:layout_toLeftOf="@+id/done"
-            android:layout_alignBottom="@+id/checkbox"
+            android:layout_alignBottom="@+id/checkBox"
             android:layout_alignParentBottom="true"
             />
     </RelativeLayout>

@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 /**
@@ -26,6 +27,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         TextView textViewcreTime;
         TextView textViewendTime;
         TextView textViewPri;
+        CheckBox checkBox;
         public ViewHolder(View v){
             super(v);
             cardView = (CardView) v.findViewById(R.id.cv_item);
@@ -34,6 +36,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             textViewcreTime = (TextView) v.findViewById(R.id.text_view_creTime);
             textViewendTime = (TextView) v.findViewById(R.id.text_view_endTime);
             textViewPri = (TextView) v.findViewById(R.id.primer);
+            checkBox = (CheckBox) v.findViewById(R.id.checkBox);
         }
     }
 
@@ -58,6 +61,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         holder.textViewcreTime.setText(db.getCreTime(pos+1));
         holder.textViewendTime.setText(db.getEndTime(pos+1));
         holder.textViewPri.setText("Important");
+        holder.checkBox.setChecked(db.getCheck(pos+1));
     }
 
     @Override
