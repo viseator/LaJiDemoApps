@@ -19,12 +19,12 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.Adapter adapter;
     private LinearLayoutManager layoutManager;
     private OperateData db;
-//    private String[] dataset = {"one", "two", "three", "four", "five"};
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         db = new OperateData(this);
+        db.initTable();
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         layoutManager=new LinearLayoutManager(this);
         adapter = new MyAdapter(db,this);

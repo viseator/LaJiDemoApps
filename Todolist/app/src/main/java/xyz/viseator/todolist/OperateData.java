@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 /**
  * Created by viseator on 2016/11/2.
@@ -18,10 +19,10 @@ public class OperateData {
         this.context = context;
         dataBase = new DataBase(context);
         db = dataBase.getWritableDatabase();
-        initTable();
     }
 
     public void initTable(){
+        Log.d("wudi", "Init");
         db.beginTransaction();
         db.execSQL("INSERT INTO " + DataBase.TABLE_NAME + " (title,context,creTime,endTime) VALUES ('title1','context1','20161024','20161024')");
         db.execSQL("INSERT INTO " + DataBase.TABLE_NAME + " (title,context,creTime,endTime) VALUES ('title2','context2','20161024','20161024')");
@@ -57,6 +58,10 @@ public class OperateData {
         return c.getString(c.getColumnIndex("endTime"));
     }
 
+    public int count(){
+        Cursor c = db.rawQuery("SELECT * FROM " + DataBase.TABLE_NAME, null);
+        return c.getCount();
+    }
     public void closedb(){
         db.close();
     }
