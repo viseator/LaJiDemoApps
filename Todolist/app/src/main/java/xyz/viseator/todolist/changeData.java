@@ -1,13 +1,17 @@
 package xyz.viseator.todolist;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
@@ -31,24 +35,11 @@ public class ChangeData extends AppCompatActivity {
     private int min;
     private int pos;
 
-    private void init() throws ParseException {
-        db = new OperateData(ChangeData.this);
-        textTitle.setText(db.getTitle(pos));
-        textContent.setText(db.getContext(pos));
-        textTitle.setSelection(db.getTitle(pos).length());
-
-        SimpleDateFormat simpleDateFormat= new SimpleDateFormat("yyyyMMdd HH:mm");
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(simpleDateFormat.parse(db.getEndTime(pos)).getTime());
-        datePicker.init(calendar.get(calendar.YEAR),calendar.get(calendar.MONTH),calendar.get(calendar.DAY_OF_MONTH),null);
-            timePicker.setCurrentHour(calendar.get(calendar.HOUR));
-            timePicker.setCurrentMinute(calendar.get(calendar.MINUTE));
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_data);
+        setStatusBar(ChangeData.this);
 
         toolbar = (Toolbar) findViewById(R.id.addToolbar);
         textTitle = (EditText) findViewById(R.id.addTitle);
@@ -94,5 +85,25 @@ public class ChangeData extends AppCompatActivity {
         });
     }
 
+    private void init() throws ParseException {
+        db = new OperateData(ChangeData.this);
+        textTitle.setText(db.getTitle(pos));
+        textContent.setText(db.getContext(pos));
+        textTitle.setSelection(db.getTitle(pos).length());
+
+        SimpleDateFormat simpleDateFormat= new SimpleDateFormat("yyyyMMdd HH:mm");
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(simpleDateFormat.parse(db.getEndTime(pos)).getTime());
+        datePicker.init(calendar.get(calendar.YEAR),calendar.get(calendar.MONTH),calendar.get(calendar.DAY_OF_MONTH),null);
+        timePicker.setCurrentHour(calendar.get(calendar.HOUR));
+        timePicker.setCurrentMinute(calendar.get(calendar.MINUTE));
+    }
+
+    private void setStatusBar(Activity activity) {
+        Window window = activity.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.setStatusBarColor(ContextCompat.getColor(activity, R.color.colorPrimaryDark));
+    }
 
 }
