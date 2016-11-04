@@ -64,7 +64,8 @@ public class OperateData {
         db.beginTransaction();
         db.execSQL("INSERT INTO " +
                 DataBase.TABLE_NAME +
-                " (title,context,creTime,endTime,done) VALUES ("+
+                " (id,title,context,creTime,endTime,done) VALUES ("+
+                String.valueOf(count())+","+
                 title+","+
                 content+","+
                 creTime+","+
@@ -78,6 +79,26 @@ public class OperateData {
         return c.getCount();
     }
 
+    public void swapid(int pos1,int pos2){
+        db.beginTransaction();
+        db.execSQL("UPDATE "+
+                DataBase.TABLE_NAME + " SET id = -1 WHERE id = "+String.valueOf(pos1));
+        db.execSQL("UPDATE "+
+                DataBase.TABLE_NAME + " SET id = "+String.valueOf(pos1)+" WHERE id = "+String.valueOf(pos2));
+        db.execSQL("UPDATE "+
+                DataBase.TABLE_NAME + " SET id = "+String.valueOf(pos2)+" WHERE id = -1");
+        db.setTransactionSuccessful();
+        db.endTransaction();
+    }
+
+    public void setId(int pos, int id) {
+        db.beginTransaction();
+        db.execSQL("UPDATE "+
+                DataBase.TABLE_NAME + " SET id = "+String.valueOf(id)+" WHERE id = "+String.valueOf(pos));
+        db.setTransactionSuccessful();
+        db.endTransaction();
+    }
+
     public void closedb(){
         db.close();
     }
@@ -85,5 +106,9 @@ public class OperateData {
     public void remove(int position) {
         db.beginTransaction();
         db.execSQL("DELETE FROM " + DataBase.TABLE_NAME + " WHERE id = "+ String.valueOf(position));
+        db.setTransactionSuccessful();
+        db.endTransaction();
+        for (int i = position + 1; i <= count(); i++)
+            setId(i, i - 1);
     }
 }

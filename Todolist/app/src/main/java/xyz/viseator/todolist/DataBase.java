@@ -22,7 +22,7 @@ public class DataBase extends SQLiteOpenHelper{
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME +
-                " (id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                " (id INTEGER PRIMARY KEY," +
                 "title TEXT,context TEXT," +
                 "creTime TEXT," +
                 "endTime TEXT," +
