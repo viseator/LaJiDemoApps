@@ -64,22 +64,35 @@ public class OperateData {
         db.beginTransaction();
         db.execSQL("INSERT INTO " +
                 DataBase.TABLE_NAME +
-                " (id,title,context,creTime,endTime,done) VALUES ("+
-                String.valueOf(count())+","+
-                title+","+
-                content+","+
-                creTime+","+
-                endTime+","+
-                done+")");
+                " (id,title,context,creTime,endTime,done) VALUES (" +
+                String.valueOf(count()) + "," +
+                title + "," +
+                content + "," +
+                creTime + "," +
+                endTime + "," +
+                done + ")");
         db.setTransactionSuccessful();
         db.endTransaction();
     }
+
+    public void updateData(int pos,String title,String content,String endTime) {
+        db.beginTransaction();
+        db.execSQL("UPDATE " + DataBase.TABLE_NAME +
+                " SET title = " + title + "," +
+                "context = " + content + "," +
+                "endTime = " + endTime + " WHERE id = " + String.valueOf(pos)
+        );
+        db.setTransactionSuccessful();
+        db.endTransaction();
+    }
+
+
     public int count(){
         Cursor c = db.rawQuery("SELECT * FROM " + DataBase.TABLE_NAME, null);
         return c.getCount();
     }
 
-    public void swapid(int pos1,int pos2){
+    public void swapId(int pos1,int pos2){
         db.beginTransaction();
         db.execSQL("UPDATE "+
                 DataBase.TABLE_NAME + " SET id = -1 WHERE id = "+String.valueOf(pos1));

@@ -64,6 +64,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> implem
         holder.textViewendTime.setText(db.getEndTime(pos));
         holder.textViewPri.setText("Important");
         holder.checkBox.setChecked(db.getCheck(pos));
+        holder.itemView.setTag(pos);
+
         holder.checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,7 +85,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> implem
     }
 
     public static interface OnItemClickListener{
-        void onItemClick(View view);
+        void onItemClick(View view,int pos);
     }
 
     private OnItemClickListener onItemClickListener = null;
@@ -95,7 +97,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> implem
 
     @Override
     public void onClick(View v) {
-        onItemClickListener.onItemClick(v);
+        onItemClickListener.onItemClick(v,(int)v.getTag());
     }
 
     public void removeItem(int positon) {

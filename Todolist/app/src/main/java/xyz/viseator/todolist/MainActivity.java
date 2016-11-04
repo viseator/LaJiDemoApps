@@ -3,6 +3,7 @@ package xyz.viseator.todolist;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -40,8 +41,10 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(new MyAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View view) {
-                Toast.makeText(MainActivity.this, "Hello!", Toast.LENGTH_SHORT).show();
+            public void onItemClick(View view,int pos) {
+                Intent intent = new Intent(MainActivity.this,ChangeData.class);
+                intent.putExtra("pos", pos);
+                startActivity(intent);
             }
         });
 
@@ -67,6 +70,16 @@ public class MainActivity extends AppCompatActivity {
                 int position = viewHolder.getAdapterPosition();
                 db.remove(position);
                 adapter.notifyItemRemoved(position);
+            }
+
+            @Override
+            public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+                if(actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
+                    final float alpha = 1 - Math.abs(dX) / (float)viewHolder.itemView.getWidth();
+                    viewHolder.itemView.setAlpha(alpha);
+                    viewHolder.itemView.setTranslationX(dX);
+                }
             }
         };
 

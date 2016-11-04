@@ -18,11 +18,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".AddData"
             android:theme="@style/AppTheme.NoActionBar">
 
+        </activity>
+        <activity android:name=".ChangeData"
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>
 
