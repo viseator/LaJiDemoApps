@@ -21,19 +21,6 @@ public class OperateData {
         db = dataBase.getWritableDatabase();
     }
 
-    public void initTable(){
-        Log.d("wudi", "Init");
-        db.beginTransaction();
-        db.execSQL("INSERT INTO " + DataBase.TABLE_NAME + " (title,context,creTime,endTime) VALUES ('title1','context1','20161024','20161024')");
-        db.execSQL("INSERT INTO " + DataBase.TABLE_NAME + " (title,context,creTime,endTime) VALUES ('title2','context2','20161024','20161024')");
-        db.execSQL("INSERT INTO " + DataBase.TABLE_NAME + " (title,context,creTime,endTime) VALUES ('title3','context3','20161024','20161024')");
-        db.execSQL("INSERT INTO " + DataBase.TABLE_NAME + " (title,context,creTime,endTime) VALUES ('title4','context4','20161024','20161024')");
-        db.execSQL("INSERT INTO " + DataBase.TABLE_NAME + " (title,context,creTime,endTime) VALUES ('title5','context5','20161024','20161024')");
-        db.execSQL("INSERT INTO " + DataBase.TABLE_NAME + " (title,context,creTime,endTime) VALUES ('title6','context6','20161024','20161024')");
-        db.setTransactionSuccessful();
-        db.endTransaction();
-    }
-
     public String getTitle(int position) {
         Cursor c = db.rawQuery("SELECT * FROM " + DataBase.TABLE_NAME + " WHERE id = ?", new String[]{String.valueOf(position)});
         c.moveToFirst();
@@ -65,6 +52,14 @@ public class OperateData {
         else return false;
     }
 
+    public void setCheck(int position,int check) {
+        db.beginTransaction();
+        db.execSQL("UPDATE "+
+                    DataBase.TABLE_NAME + " SET done = "+String.valueOf(check)+" WHERE id = "+String.valueOf(position));
+        db.setTransactionSuccessful();
+        db.endTransaction();
+    }
+
     public void setData(String title,String content,String creTime,String endTime,String done) {
         db.beginTransaction();
         db.execSQL("INSERT INTO " +
@@ -85,5 +80,10 @@ public class OperateData {
 
     public void closedb(){
         db.close();
+    }
+
+    public void remove(int position) {
+        db.beginTransaction();
+        db.execSQL("DELETE FROM " + DataBase.TABLE_NAME + " WHERE id = "+ String.valueOf(position));
     }
 }

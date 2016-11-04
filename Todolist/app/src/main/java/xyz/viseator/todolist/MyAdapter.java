@@ -15,9 +15,10 @@ import android.widget.TextView;
  * Created by viseator on 2016/11/1.
  */
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
+public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> implements View.OnClickListener {
     private Context context;
     private OperateData db;
+
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
@@ -47,14 +48,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
 
     @Override
-    public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View v = LayoutInflater.from(context).inflate(R.layout.listtext, viewGroup, false);
         MyAdapter.ViewHolder vh = new MyAdapter.ViewHolder(v);
+        v.setOnClickListener(this);
         return vh;
     }
 
     @Override
-    public void onBindViewHolder(MyAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(final MyAdapter.ViewHolder holder, final int position) {
         int pos = position;
         holder.textViewTitle.setText(db.getTitle(pos+1));
         holder.textViewContext.setText(db.getContext(pos+1));
@@ -62,11 +64,42 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         holder.textViewendTime.setText(db.getEndTime(pos+1));
         holder.textViewPri.setText("Important");
         holder.checkBox.setChecked(db.getCheck(pos+1));
+        holder.checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CheckBox checkBox = (CheckBox) v;
+                if (checkBox.isChecked()) {
+                    db.setCheck(position + 1, 1);
+                } else {
+                    db.setCheck(position + 1, 0);
+                }
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return db.count();
+    }
+
+    public static interface OnItemClickListener{
+        void onItemClick(View view);
+    }
+
+    private OnItemClickListener onItemClickListener = null;
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.onItemClickListener = listener;
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        onItemClickListener.onItemClick(v);
+    }
+
+    public void removeItem(int positon) {
+
     }
 
 

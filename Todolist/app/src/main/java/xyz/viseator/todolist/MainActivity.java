@@ -11,16 +11,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter adapter;
+    private MyAdapter adapter;
     private LinearLayoutManager layoutManager;
     private OperateData db;
+    private ItemTouchHelper itemtouchheler;
+    private ItemTouchHelper.Callback callback;
 
     private FloatingActionButton floatingActionButton;
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,6 +38,14 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+        adapter.setOnItemClickListener(new MyAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view) {
+                Toast.makeText(MainActivity.this, "Hello!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
         floatingActionButton = (FloatingActionButton) findViewById(R.id.addButton);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,6 +54,23 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
+        callback = new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT|ItemTouchHelper.LEFT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getAdapterPosition();
+            }
+        };
+
+        itemtouchheler = new ItemTouchHelper(callback);
+        itemtouchheler.attachToRecyclerView(recyclerView);
+
     }
 
 
