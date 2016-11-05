@@ -1,6 +1,7 @@
 package xyz.viseator.todolist;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -64,6 +65,21 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> implem
         holder.textViewPri.setText(db.getPrimer(position));
         holder.checkBox.setChecked(db.getCheck(position));
         holder.itemView.setTag(position);
+
+        switch (db.getPrimerNum(position)) {
+            case 1:
+                holder.textViewPri.setTextColor(Color.parseColor("#A9A9A9"));
+                break;
+            case 2:
+                holder.textViewPri.setTextColor(Color.BLACK);
+                break;
+            case 3:
+                holder.textViewPri.setTextColor(Color.parseColor("#FFD700"));
+                break;
+            case 4:
+                holder.textViewPri.setTextColor(Color.parseColor("#FF0000"));
+                break;
+        }
 
         holder.checkBox.setOnClickListener(new View.OnClickListener() {
             @Override

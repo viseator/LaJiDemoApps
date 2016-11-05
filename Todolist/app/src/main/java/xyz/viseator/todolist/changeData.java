@@ -19,13 +19,15 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
 
+import com.jzxiang.pickerview.TimePickerDialog;
+import com.jzxiang.pickerview.data.Type;
+import com.jzxiang.pickerview.listener.OnDateSetListener;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class ChangeData extends AppCompatActivity {
-    private TimePicker timePicker;
-    private DatePicker datePicker;
+public class ChangeData extends AppCompatActivity implements OnDateSetListener{
     private Toolbar toolbar;
     private EditText textTitle;
     private EditText textContent;
@@ -36,6 +38,10 @@ public class ChangeData extends AppCompatActivity {
     private PopupMenu popupMenu;
     private int pos;
     private int primer;
+    private String endTime;
+    private Button buttonSetDate;
+    TimePickerDialog timePickerDialog;
+    private long tenYears = 10L * 365 * 1000 * 60 * 60 * 24L;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,9 +53,8 @@ public class ChangeData extends AppCompatActivity {
         textTitle = (EditText) findViewById(R.id.addTitle);
         textContent = (EditText) findViewById(R.id.addContent);
         floatingActionButton = (FloatingActionButton) findViewById(R.id.doneButton);
-        timePicker = (TimePicker) findViewById(R.id.timePicker);
-        datePicker = (DatePicker) findViewById(R.id.datepicker);
         button = (Button) findViewById(R.id.setprimer);
+        buttonSetDate = (Button) findViewById(R.id.setdate);
 
         intent = getIntent();
         pos = intent.getIntExtra("pos",0);
@@ -58,8 +63,7 @@ public class ChangeData extends AppCompatActivity {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
-        timePicker.setIs24HourView(true);
+        endTime = db.getEndTime(pos);
 
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -77,16 +81,38 @@ public class ChangeData extends AppCompatActivity {
                 SimpleDateFormat format=new SimpleDateFormat("yyyyMMdd HH:mm");
                 String creTime = format.format(new java.util.Date());
 
-                Calendar calendar = Calendar.getInstance();
-                calendar.set(datePicker.getYear(),datePicker.getMonth(),datePicker.getDayOfMonth(),timePicker.getCurrentHour(),timePicker.getCurrentMinute());
-                SimpleDateFormat format1=new SimpleDateFormat("yyyyMMdd HH:mm");
-                String endTime = format1.format(calendar.getTime());
                 OperateData db = new OperateData(ChangeData.this);
                 db.updateData(pos,"'"+title+"'","'"+content+"'","'"+endTime+"'",primer);
                 finish();
             }
         });
 
+
+
+        try {
+            timePickerDialog = new TimePickerDialog.Builder()
+                    .setCallBack(this)
+                    .setCancelStringId("取消")
+                    .setSureStringId("确定")
+                    .setTitleStringId("截止时间")
+                    .setYearText("年")
+                    .setMonthText("月")
+                    .setDayText("日")
+                    .setHourText("时")
+                    .setMinuteText("分")
+                    .setCyclic(false)
+                    .setMinMillseconds(System.currentTimeMillis())
+                    .setMaxMillseconds(System.currentTimeMillis() + tenYears)
+                    .setCurrentMillseconds(new SimpleDateFormat("yyyyMMdd HH:mm").parse(db.getEndTime(pos)).getTime())
+                    .setThemeColor(getResources().getColor(R.color.timepicker_dialog_bg))
+                    .setType(Type.ALL)
+                    .setWheelItemTextNormalColor(getResources().getColor(R.color.timetimepicker_default_text_color))
+                    .setWheelItemTextSelectorColor(getResources().getColor(R.color.timepicker_toolbar_bg))
+                    .setWheelItemTextSize(18)
+                    .build();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         popupMenu = new PopupMenu(this, button);
         popupMenu.inflate(R.menu.primer_menu);
@@ -96,6 +122,12 @@ public class ChangeData extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 popupMenu.show();
+            }
+        });
+        buttonSetDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                timePickerDialog.show(getSupportFragmentManager(), "all");
             }
         });
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -129,18 +161,12 @@ public class ChangeData extends AppCompatActivity {
 
 
 
+
     private void init() throws ParseException {
         db = new OperateData(ChangeData.this);
         textTitle.setText(db.getTitle(pos));
         textContent.setText(db.getContext(pos));
         textTitle.setSelection(db.getTitle(pos).length());
-
-        SimpleDateFormat simpleDateFormat= new SimpleDateFormat("yyyyMMdd HH:mm");
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(simpleDateFormat.parse(db.getEndTime(pos)).getTime());
-        datePicker.init(calendar.get(calendar.YEAR),calendar.get(calendar.MONTH),calendar.get(calendar.DAY_OF_MONTH),null);
-        timePicker.setCurrentHour(calendar.get(calendar.HOUR));
-        timePicker.setCurrentMinute(calendar.get(calendar.MINUTE));
     }
 
     private void setStatusBar(Activity activity) {
@@ -150,4 +176,10 @@ public class ChangeData extends AppCompatActivity {
         window.setStatusBarColor(ContextCompat.getColor(activity, R.color.colorPrimaryDark));
     }
 
+    @Override
+    public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
+        SimpleDateFormat format=new SimpleDateFormat("yyyyMMdd HH:mm");
+        endTime = format.format(millseconds);
+        buttonSetDate.setText(endTime);
+    }
 }

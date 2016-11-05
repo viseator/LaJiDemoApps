@@ -19,12 +19,14 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TimePicker;
 
+import com.jzxiang.pickerview.TimePickerDialog;
+import com.jzxiang.pickerview.data.Type;
+import com.jzxiang.pickerview.listener.OnDateSetListener;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class AddData extends AppCompatActivity {
-    private TimePicker timePicker;
-    private DatePicker datePicker;
+public class AddData extends AppCompatActivity implements OnDateSetListener {
     private Toolbar toolbar;
     private EditText textTitle;
     private EditText textContent;
@@ -32,6 +34,10 @@ public class AddData extends AppCompatActivity {
     private PopupMenu popupMenu;
     private Button button;
     private int primer = 2;
+    private TimePickerDialog timePickerDialog;
+    private long tenYears = 10L * 365 * 1000 * 60 * 60 * 24L;
+    private String endTime;
+    private Button buttonSetDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,11 +50,28 @@ public class AddData extends AppCompatActivity {
         textTitle = (EditText) findViewById(R.id.addTitle);
         textContent = (EditText) findViewById(R.id.addContent);
         floatingActionButton = (FloatingActionButton) findViewById(R.id.doneButton);
-        timePicker = (TimePicker) findViewById(R.id.timePicker);
-        datePicker = (DatePicker) findViewById(R.id.datepicker);
+        buttonSetDate = (Button) findViewById(R.id.setdate);
 
-
-        timePicker.setIs24HourView(true);
+        timePickerDialog = new TimePickerDialog.Builder()
+                .setCallBack(this)
+                .setCancelStringId("取消")
+                .setSureStringId("确定")
+                .setTitleStringId("截止时间")
+                .setYearText("年")
+                .setMonthText("月")
+                .setDayText("日")
+                .setHourText("时")
+                .setMinuteText("分")
+                .setCyclic(false)
+                .setMinMillseconds(System.currentTimeMillis())
+                .setMaxMillseconds(System.currentTimeMillis() + tenYears)
+                .setCurrentMillseconds(System.currentTimeMillis())
+                .setThemeColor(getResources().getColor(R.color.timepicker_dialog_bg))
+                .setType(Type.ALL)
+                .setWheelItemTextNormalColor(getResources().getColor(R.color.timetimepicker_default_text_color))
+                .setWheelItemTextSelectorColor(getResources().getColor(R.color.timepicker_toolbar_bg))
+                .setWheelItemTextSize(18)
+                .build();
 
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -60,6 +83,12 @@ public class AddData extends AppCompatActivity {
 
         button.setText("设置优先级");
 
+        buttonSetDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                timePickerDialog.show(getSupportFragmentManager(), "all");
+            }
+        });
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,11 +98,6 @@ public class AddData extends AppCompatActivity {
                 SimpleDateFormat format=new SimpleDateFormat("yyyyMMdd HH:mm");
                 String creTime = format.format(new java.util.Date());
 
-                Calendar calendar = Calendar.getInstance();
-                calendar.set(datePicker.getYear(),datePicker.getMonth(),datePicker.getDayOfMonth(),timePicker.getCurrentHour(),timePicker.getCurrentMinute());
-                SimpleDateFormat format1=new SimpleDateFormat("yyyyMMdd HH:mm");
-                String endTime = format1.format(calendar.getTime());
-                Log.d("wudi endTime",endTime);
                 OperateData db = new OperateData(AddData.this);
                 db.setData("'"+title+"'","'"+content+"'","'"+creTime+"'","'"+endTime+"'",primer,"'"+done+"'");
                 finish();
@@ -122,5 +146,12 @@ public class AddData extends AppCompatActivity {
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.setStatusBarColor(ContextCompat.getColor(activity, R.color.colorPrimaryDark));
+    }
+
+    @Override
+    public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
+        SimpleDateFormat format=new SimpleDateFormat("yyyyMMdd HH:mm");
+        endTime = format.format(millseconds);
+        buttonSetDate.setText(endTime);
     }
 }

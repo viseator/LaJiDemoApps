@@ -46,7 +46,7 @@
         <EditText
             android:id="@+id/addContent"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="350dp"
             android:padding="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="5dp"
@@ -56,39 +56,28 @@
             android:hint="Content:"
             android:layout_below="@+id/addTitle"
             />
-        <DatePicker
-            android:id="@+id/datepicker"
-            android:layout_marginTop="-15dp"
-            android:layout_width="wrap_content"
-            android:layout_height="80dp"
-            android:calendarViewShown="false"
-            android:datePickerMode="spinner"
-            android:layout_below="@+id/addContent"
-            >
-
-        </DatePicker>
 
         <Button
             android:id="@+id/setprimer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignBottom="@+id/datepicker"
-            android:layout_marginBottom="20dp"
-            android:layout_marginRight="@dimen/fab_margin"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="@dimen/fab_margin"
+            android:layout_marginBottom="@dimen/fab_margin"
             />
-        <TimePicker
-            android:layout_marginLeft="32dp"
-            android:id="@+id/timePicker"
-            android:layout_marginTop="-20dp"
+
+        <Button
+            android:id="@+id/setdate"
+            android:text="截止时间"
             android:layout_width="wrap_content"
-            android:layout_height="80dp"
-            android:layout_below="@+id/datepicker"
-            android:timePickerMode="spinner"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/setprimer"
+            android:layout_alignBottom="@+id/setprimer"
+            android:layout_marginLeft="20dp"
+            />
 
-            >
 
-        </TimePicker>
     </RelativeLayout>
 
     <android.support.design.widget.FloatingActionButton
