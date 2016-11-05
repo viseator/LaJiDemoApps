@@ -167,6 +167,7 @@ public class ChangeData extends AppCompatActivity implements OnDateSetListener{
         textTitle.setText(db.getTitle(pos));
         textContent.setText(db.getContext(pos));
         textTitle.setSelection(db.getTitle(pos).length());
+        buttonSetDate.setText(db.getEndTime(pos));
     }
 
     private void setStatusBar(Activity activity) {

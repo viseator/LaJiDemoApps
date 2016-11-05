@@ -32,50 +32,83 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <EditText
-            android:id="@+id/addTitle"
-            android:layout_width="match_parent"
+        <android.support.v7.widget.CardView
+            android:layout_marginTop="60dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
             android:layout_height="wrap_content"
-            android:padding="20dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:textSize="25sp"
-            android:hint="Title:"
-            android:layout_below="@id/appBar"
-            />
-        <EditText
-            android:id="@+id/addContent"
             android:layout_width="match_parent"
-            android:layout_height="350dp"
-            android:padding="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:textSize="20sp"
-            android:gravity="start"
-            android:hint="Content:"
-            android:layout_below="@+id/addTitle"
-            />
+            app:cardElevation="4dp"
+            app:cardCornerRadius="4dp">
 
-        <Button
-            android:id="@+id/setprimer"
-            android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/addTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:textSize="25sp"
+                android:hint="标题"
+                android:layout_below="@id/appBar" />
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_marginTop="140dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
+            android:layout_width="match_parent"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="4dp">
+
+            <EditText
+                android:id="@+id/addContent"
+                android:layout_width="match_parent"
+                android:layout_height="335dp"
+                android:padding="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:textSize="20sp"
+                android:gravity="start"
+                android:hint="事件"
+                android:layout_below="@+id/addTitle" />
+        </android.support.v7.widget.CardView>
+
+
+        <android.support.v7.widget.CardView
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="@dimen/fab_margin"
-            android:layout_marginBottom="@dimen/fab_margin"
-            />
+            android:layout_marginBottom="12dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_height="65dp"
+            android:layout_width="match_parent"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="4dp">
 
-        <Button
-            android:id="@+id/setdate"
-            android:text="截止时间"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/setprimer"
-            android:layout_alignBottom="@+id/setprimer"
-            android:layout_marginLeft="20dp"
-            />
+            <Button
+                android:id="@+id/setprimer"
+                android:layout_marginLeft="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/LightGrey"
+                android:background="@color/cardview_light_background"
+                />
+
+            <Button
+                android:id="@+id/setdate"
+                android:textColor="@color/LightGrey"
+                android:background="@color/cardview_light_background"
+                android:text="截止时间"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:layout_marginLeft="130dp"
+                android:layout_gravity="center_vertical"
+                 />
+        </android.support.v7.widget.CardView>
 
 
     </RelativeLayout>
