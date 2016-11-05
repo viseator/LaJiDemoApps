@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/holy"
+        android:title="Holy" />
+    <item
+        android:id="@+id/important"
+        android:title="Important" />
+
+    <item
+        android:id="@+id/normal"
+        android:title="Normal" />
+    <item
+        android:id="@+id/shit"
+        android:title="Shit" />
+</menu>

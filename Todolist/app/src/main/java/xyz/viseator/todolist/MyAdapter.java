@@ -57,14 +57,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> implem
 
     @Override
     public void onBindViewHolder(final MyAdapter.ViewHolder holder, final int position) {
-        int pos = position;
-        holder.textViewTitle.setText(db.getTitle(pos));
-        holder.textViewContext.setText(db.getContext(pos));
-        holder.textViewcreTime.setText(db.getCreTime(pos));
-        holder.textViewendTime.setText(db.getEndTime(pos));
-        holder.textViewPri.setText("Important");
-        holder.checkBox.setChecked(db.getCheck(pos));
-        holder.itemView.setTag(pos);
+        holder.textViewTitle.setText(db.getTitle(position));
+        holder.textViewContext.setText(db.getContext(position));
+        holder.textViewcreTime.setText(db.getCreTime(position));
+        holder.textViewendTime.setText(db.getEndTime(position));
+        holder.textViewPri.setText(db.getPrimer(position));
+        holder.checkBox.setChecked(db.getCheck(position));
+        holder.itemView.setTag(position);
 
         holder.checkBox.setOnClickListener(new View.OnClickListener() {
             @Override

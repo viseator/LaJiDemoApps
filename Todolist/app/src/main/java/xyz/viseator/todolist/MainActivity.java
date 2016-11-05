@@ -75,6 +75,13 @@ public class MainActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                         break;
+                    case R.id.sortbyprimer:
+                        try {
+                            db.sortDataByPrimer(adapter);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        break;
                 }
                 return true;
             }
@@ -91,10 +98,14 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        callback = new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT|ItemTouchHelper.LEFT) {
+        callback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                return false;
+                int from = viewHolder.getAdapterPosition();
+                int to = target.getAdapterPosition();
+                db.swapId(from, to);
+                adapter.notifyItemMoved(from, to);
+                return true;
             }
 
             @Override
@@ -107,11 +118,25 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
-                if(actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
-                    final float alpha = 1 - Math.abs(dX) / (float)viewHolder.itemView.getWidth();
+                if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
+                    final float alpha = 1 - Math.abs(dX) / (float) viewHolder.itemView.getWidth();
                     viewHolder.itemView.setAlpha(alpha);
                     viewHolder.itemView.setTranslationX(dX);
                 }
+            }
+
+            @Override
+            public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
+                super.onSelectedChanged(viewHolder, actionState);
+                if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
+                    viewHolder.itemView.setAlpha((float) 0.5);
+                }
+            }
+
+            @Override
+            public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+                super.clearView(recyclerView, viewHolder);
+                viewHolder.itemView.setAlpha((float) 1.0);
             }
         };
 

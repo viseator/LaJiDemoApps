@@ -56,6 +56,29 @@ public class OperateData {
         else return false;
     }
 
+    public String getPrimer(int position) {
+        Cursor c = db.rawQuery("SELECT * FROM " + DataBase.TABLE_NAME + " WHERE id = ?", new String[]{String.valueOf(position)});
+        c.moveToFirst();
+        switch (c.getInt(c.getColumnIndex("primer"))) {
+            case 1:
+                return "Shit";
+            case 2:
+                return "Normal";
+            case 3:
+                return "Important";
+            case 4:
+                return "Holy";
+            default:
+                return "Error";
+        }
+    }
+
+    public int getPrimerNum(int position) {
+        Cursor c = db.rawQuery("SELECT * FROM " + DataBase.TABLE_NAME + " WHERE id = ?", new String[]{String.valueOf(position)});
+        c.moveToFirst();
+        return c.getInt(c.getColumnIndex("primer"));
+    }
+
     public void setCheck(int position,int check) {
         db.beginTransaction();
         db.execSQL("UPDATE "+
@@ -64,27 +87,29 @@ public class OperateData {
         db.endTransaction();
     }
 
-    public void setData(String title,String content,String creTime,String endTime,String done) {
+    public void setData(String title,String content,String creTime,String endTime,int primer,String done) {
         db.beginTransaction();
         db.execSQL("INSERT INTO " +
                 DataBase.TABLE_NAME +
-                " (id,title,context,creTime,endTime,done) VALUES (" +
+                " (id,title,context,creTime,endTime,primer,done) VALUES (" +
                 String.valueOf(count()) + "," +
                 title + "," +
                 content + "," +
                 creTime + "," +
                 endTime + "," +
+                String.valueOf(primer) + "," +
                 done + ")");
         db.setTransactionSuccessful();
         db.endTransaction();
     }
 
-    public void updateData(int pos,String title,String content,String endTime) {
+    public void updateData(int pos,String title,String content,String endTime,int primer) {
         db.beginTransaction();
         db.execSQL("UPDATE " + DataBase.TABLE_NAME +
                 " SET title = " + title + "," +
                 "context = " + content + "," +
-                "endTime = " + endTime + " WHERE id = " + String.valueOf(pos)
+                "endTime = " + endTime + ","+
+                "primer = "+String.valueOf(primer)+" WHERE id = " + String.valueOf(pos)
         );
         db.setTransactionSuccessful();
         db.endTransaction();
@@ -135,9 +160,22 @@ public class OperateData {
             for(int j = i + 1;j < count();j++ ) {
                 long iTime = simpleDateFormat.parse(getEndTime(i)).getTime();
                 long jTime = simpleDateFormat.parse(getEndTime(j)).getTime();
-                if (jTime < iTime) {
+                if (jTime <= iTime) {
                     swapId(i,j);
                     adapter.notifyItemMoved(j,i);
+                    adapter.notifyItemMoved(i+1,j);
+                }
+            }
+        }
+    }
+
+    public void sortDataByPrimer(MyAdapter adapter) throws ParseException {
+        for(int i = 0;i < count();i++) {
+            for(int j = i + 1;j < count();j++ ) {
+                if (getPrimerNum(i) <= getPrimerNum(j)) {
+                    swapId(i,j);
+                    adapter.notifyItemMoved(j,i);
+                    adapter.notifyItemMoved(i+1,j);
                 }
             }
         }
