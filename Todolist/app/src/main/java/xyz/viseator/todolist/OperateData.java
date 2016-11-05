@@ -6,6 +6,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 /**
  * Created by viseator on 2016/11/2.
  */
@@ -123,5 +127,19 @@ public class OperateData {
         db.endTransaction();
         for (int i = position + 1; i <= count(); i++)
             setId(i, i - 1);
+    }
+
+    public void sortDataByEndTime(MyAdapter adapter) throws ParseException {
+        SimpleDateFormat simpleDateFormat= new SimpleDateFormat("yyyyMMdd HH:mm");
+        for(int i = 0;i < count();i++) {
+            for(int j = i + 1;j < count();j++ ) {
+                long iTime = simpleDateFormat.parse(getEndTime(i)).getTime();
+                long jTime = simpleDateFormat.parse(getEndTime(j)).getTime();
+                if (jTime < iTime) {
+                    swapId(i,j);
+                    adapter.notifyItemMoved(j,i);
+                }
+            }
+        }
     }
 }

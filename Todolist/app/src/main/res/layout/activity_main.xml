@@ -12,6 +12,7 @@
         android:layout_height="?actionBarSize"
         app:theme="@style/ThemeOverlay.AppCompat.Light">
         <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:theme="@style/ThemeOverlay.AppCompat.Light"
@@ -24,6 +25,8 @@
                 android:text="Xiao Yu Er"
                 android:textSize="35sp"
                 android:textColor="#ffff"/>
+
+
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>

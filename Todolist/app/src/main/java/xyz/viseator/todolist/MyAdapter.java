@@ -100,9 +100,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> implem
         onItemClickListener.onItemClick(v,(int)v.getTag());
     }
 
-    public void removeItem(int positon) {
-
-    }
 
 
 }
