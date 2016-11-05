@@ -26,23 +26,12 @@
             android:layout_height="wrap_content"/>
 
         <TextView
-            android:id="@+id/text_view_creTime"
-            android:paddingRight="5dp"
-            android:textSize="15sp"
-            android:textColor="@color/DarkGray"
-            android:layout_alignParentRight="true"
-            android:layout_alignTop="@id/text_view_title"
-            android:paddingTop="5dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <TextView
             android:id="@+id/text_view_endTime"
-            android:paddingRight="5dp"
-            android:textSize="15sp"
+            android:paddingLeft="10dp"
             android:textColor="@color/DarkGray"
-            android:layout_alignParentRight="true"
-            android:layout_below="@id/text_view_creTime"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            android:paddingBottom="7dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
