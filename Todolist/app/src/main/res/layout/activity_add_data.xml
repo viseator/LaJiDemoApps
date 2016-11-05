@@ -65,7 +65,7 @@
             <EditText
                 android:id="@+id/addContent"
                 android:layout_width="match_parent"
-                android:layout_height="335dp"
+                android:layout_height="330dp"
                 android:padding="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="5dp"
@@ -89,23 +89,24 @@
 
             <Button
                 android:id="@+id/setprimer"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="5dp"
+                android:padding="0dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:textColor="@color/LightGrey"
+                android:textColor="@color/DarkGray"
                 android:background="@color/cardview_light_background"
                 />
 
             <Button
                 android:id="@+id/setdate"
-                android:textColor="@color/LightGrey"
+                android:textColor="@color/DarkGray"
                 android:background="@color/cardview_light_background"
                 android:text="截止时间"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:layout_marginLeft="130dp"
+                android:layout_marginLeft="100dp"
                 android:layout_gravity="center_vertical"
                  />
         </android.support.v7.widget.CardView>

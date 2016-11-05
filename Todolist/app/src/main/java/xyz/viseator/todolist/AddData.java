@@ -81,7 +81,7 @@ public class AddData extends AppCompatActivity implements OnDateSetListener {
             }
         });
 
-        button.setText("设置优先级");
+        button.setText("优先级");
 
         buttonSetDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,10 +95,11 @@ public class AddData extends AppCompatActivity implements OnDateSetListener {
                 String title = textTitle.getText().toString();
                 String content = textContent.getText().toString();
                 String done = "0";
-                SimpleDateFormat format=new SimpleDateFormat("yyyyMMdd HH:mm");
+                SimpleDateFormat format=new SimpleDateFormat("yyyy年MM月dd日 HH时mm分");
                 String creTime = format.format(new java.util.Date());
 
                 OperateData db = new OperateData(AddData.this);
+                if(endTime == null) endTime = creTime;
                 db.setData("'"+title+"'","'"+content+"'","'"+creTime+"'","'"+endTime+"'",primer,"'"+done+"'");
                 finish();
             }
@@ -150,7 +151,7 @@ public class AddData extends AppCompatActivity implements OnDateSetListener {
 
     @Override
     public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
-        SimpleDateFormat format=new SimpleDateFormat("yyyyMMdd HH:mm");
+        SimpleDateFormat format=new SimpleDateFormat("yyyy年MM月dd日 HH时mm分");
         endTime = format.format(millseconds);
         buttonSetDate.setText(endTime);
     }

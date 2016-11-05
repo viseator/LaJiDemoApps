@@ -155,7 +155,7 @@ public class OperateData {
     }
 
     public void sortDataByEndTime(MyAdapter adapter) throws ParseException {
-        SimpleDateFormat simpleDateFormat= new SimpleDateFormat("yyyyMMdd HH:mm");
+        SimpleDateFormat simpleDateFormat= new SimpleDateFormat("yyyy年MM月dd日 HH时mm分");
         for(int i = 0;i < count();i++) {
             for(int j = i + 1;j < count();j++ ) {
                 long iTime = simpleDateFormat.parse(getEndTime(i)).getTime();

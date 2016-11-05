@@ -2,14 +2,17 @@ package xyz.viseator.todolist;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,11 +22,16 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.text.ParseException;
 
@@ -55,9 +63,8 @@ public class MainActivity extends AppCompatActivity {
         adapter.setOnItemClickListener(new MyAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view,int pos) {
-                Intent intent = new Intent(MainActivity.this,ChangeData.class);
-                intent.putExtra("pos", pos);
-                startActivity(intent);
+                showMyDialog(pos);
+
             }
         });
 
@@ -163,5 +170,47 @@ public class MainActivity extends AppCompatActivity {
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.setStatusBarColor(ContextCompat.getColor(activity, R.color.colorPrimaryDark));
+    }
+
+    private void showMyDialog(final int pos) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(db.getTitle(pos));
+        View dialog = getLayoutInflater().inflate(R.layout.message, (ViewGroup) findViewById(R.id.showMessage));
+        TextView message = (TextView) dialog.findViewById(R.id.message);
+        TextView messageEndtime = (TextView) dialog.findViewById(R.id.message_endTime);
+        TextView messageCretime = (TextView) dialog.findViewById(R.id.message_creTime);
+        TextView messagePrimer = (TextView) dialog.findViewById(R.id.message_primer);
+
+        message.setText(db.getContext(pos));
+        messageEndtime.setText(db.getEndTime(pos));
+        messageCretime.setText(db.getCreTime(pos));
+        messagePrimer.setText(db.getPrimer(pos));
+        builder.setView(dialog);
+        builder.setPositiveButton("确定", null);
+        builder.setNeutralButton("修改", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(MainActivity.this, ChangeData.class);
+                intent.putExtra("pos", pos);
+                startActivity(intent);
+            }
+        });
+
+        switch (db.getPrimerNum(pos)) {
+            case 1:
+                messagePrimer.setTextColor(Color.parseColor("#A9A9A9"));
+                break;
+            case 2:
+                messagePrimer.setTextColor(Color.BLACK);
+                break;
+            case 3:
+                messagePrimer.setTextColor(Color.parseColor("#FFD700"));
+                break;
+            case 4:
+                messagePrimer.setTextColor(Color.parseColor("#FF0000"));
+                break;
+        }
+        builder.show();
+
     }
 }

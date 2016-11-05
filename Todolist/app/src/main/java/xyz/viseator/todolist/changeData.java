@@ -78,7 +78,7 @@ public class ChangeData extends AppCompatActivity implements OnDateSetListener{
                 String title = textTitle.getText().toString();
                 String content = textContent.getText().toString();
                 String done = "0";
-                SimpleDateFormat format=new SimpleDateFormat("yyyyMMdd HH:mm");
+                SimpleDateFormat format=new SimpleDateFormat("yyyy年MM月dd日 HH时mm分");
                 String creTime = format.format(new java.util.Date());
 
                 OperateData db = new OperateData(ChangeData.this);
@@ -103,7 +103,7 @@ public class ChangeData extends AppCompatActivity implements OnDateSetListener{
                     .setCyclic(false)
                     .setMinMillseconds(System.currentTimeMillis())
                     .setMaxMillseconds(System.currentTimeMillis() + tenYears)
-                    .setCurrentMillseconds(new SimpleDateFormat("yyyyMMdd HH:mm").parse(db.getEndTime(pos)).getTime())
+                    .setCurrentMillseconds(new SimpleDateFormat("yyyy年MM月dd日 HH时mm分").parse(db.getEndTime(pos)).getTime())
                     .setThemeColor(getResources().getColor(R.color.timepicker_dialog_bg))
                     .setType(Type.ALL)
                     .setWheelItemTextNormalColor(getResources().getColor(R.color.timetimepicker_default_text_color))
@@ -179,7 +179,7 @@ public class ChangeData extends AppCompatActivity implements OnDateSetListener{
 
     @Override
     public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
-        SimpleDateFormat format=new SimpleDateFormat("yyyyMMdd HH:mm");
+        SimpleDateFormat format=new SimpleDateFormat("yyyy年MM月dd日 HH时mm分");
         endTime = format.format(millseconds);
         buttonSetDate.setText(endTime);
     }

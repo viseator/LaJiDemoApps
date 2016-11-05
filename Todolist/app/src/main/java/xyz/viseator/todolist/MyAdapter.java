@@ -35,7 +35,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> implem
             cardView = (CardView) v.findViewById(R.id.cv_item);
             textViewTitle = (TextView) v.findViewById(R.id.text_view_title);
             textViewContext = (TextView) v.findViewById(R.id.text_view_context);
-            textViewcreTime = (TextView) v.findViewById(R.id.text_view_creTime);
             textViewendTime = (TextView) v.findViewById(R.id.text_view_endTime);
             textViewPri = (TextView) v.findViewById(R.id.primer);
             checkBox = (CheckBox) v.findViewById(R.id.checkBox);
@@ -60,7 +59,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> implem
     public void onBindViewHolder(final MyAdapter.ViewHolder holder, final int position) {
         holder.textViewTitle.setText(db.getTitle(position));
         holder.textViewContext.setText(db.getContext(position));
-        holder.textViewcreTime.setText(db.getCreTime(position));
         holder.textViewendTime.setText(db.getEndTime(position));
         holder.textViewPri.setText(db.getPrimer(position));
         holder.checkBox.setChecked(db.getCheck(position));
