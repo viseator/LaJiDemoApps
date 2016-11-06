@@ -2,6 +2,7 @@ package xyz.viseator.todolist;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import java.text.ParseException;
+
 /**
  * Created by viseator on 2016/11/1.
  */
@@ -21,27 +24,29 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> implem
     private OperateData db;
 
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
         CardView cardView;
         TextView textViewTitle;
         TextView textViewContext;
-        TextView textViewcreTime;
         TextView textViewendTime;
         TextView textViewPri;
+        TextView textViewRemain;
         CheckBox checkBox;
-        public ViewHolder(View v){
+
+        public ViewHolder(View v) {
             super(v);
             cardView = (CardView) v.findViewById(R.id.cv_item);
             textViewTitle = (TextView) v.findViewById(R.id.text_view_title);
             textViewContext = (TextView) v.findViewById(R.id.text_view_context);
             textViewendTime = (TextView) v.findViewById(R.id.text_view_endTime);
             textViewPri = (TextView) v.findViewById(R.id.primer);
+            textViewRemain = (TextView) v.findViewById(R.id.remainTime);
             checkBox = (CheckBox) v.findViewById(R.id.checkBox);
         }
     }
 
-    public MyAdapter(OperateData db,Context context){
+    public MyAdapter(OperateData db, Context context) {
         this.context = context;
         this.db = db;
     }
@@ -61,6 +66,28 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> implem
         holder.textViewContext.setText(db.getContext(position));
         holder.textViewendTime.setText(db.getEndTime(position));
         holder.textViewPri.setText(db.getPrimer(position));
+        try {
+            holder.textViewRemain.setText(db.getRemain(position));
+            if (db.getRemain(position) == "已过期") {
+                holder.textViewTitle.setTextColor(Color.LTGRAY);
+                holder.textViewContext.setTextColor(Color.LTGRAY);
+                holder.textViewRemain.setTextColor(Color.RED);
+                holder.itemView.setAlpha((float) 0.5);
+            } else {
+                holder.textViewTitle.setTextColor(Color.BLACK);
+                holder.textViewRemain.setTextColor(Color.GRAY);
+                holder.textViewContext.setTextColor(Color.BLACK);
+                holder.itemView.setAlpha(1);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        if (db.getCheck(position))
+            holder.textViewTitle.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+        else
+            holder.textViewTitle.getPaint().setFlags(0);
+
         holder.checkBox.setChecked(db.getCheck(position));
         holder.itemView.setTag(position);
 
@@ -85,8 +112,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> implem
                 CheckBox checkBox = (CheckBox) v;
                 if (checkBox.isChecked()) {
                     db.setCheck(position, 1);
+                    notifyItemChanged(position);
                 } else {
                     db.setCheck(position, 0);
+                    notifyItemChanged(position);
                 }
             }
         });
@@ -97,8 +126,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> implem
         return db.count();
     }
 
-    public static interface OnItemClickListener{
-        void onItemClick(View view,int pos);
+    public static interface OnItemClickListener {
+        void onItemClick(View view, int pos);
     }
 
     private OnItemClickListener onItemClickListener = null;
@@ -107,12 +136,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> implem
         this.onItemClickListener = listener;
     }
 
-
     @Override
     public void onClick(View v) {
-        onItemClickListener.onItemClick(v,(int)v.getTag());
+        onItemClickListener.onItemClick(v, (int) v.getTag());
     }
-
 
 
 }

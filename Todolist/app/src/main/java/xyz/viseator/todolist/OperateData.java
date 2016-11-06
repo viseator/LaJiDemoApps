@@ -79,6 +79,14 @@ public class OperateData {
         return c.getInt(c.getColumnIndex("primer"));
     }
 
+    public String getRemain(int position) throws ParseException {
+        long remainMillis = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分").parse(getEndTime(position)).getTime() - System.currentTimeMillis();
+        if (remainMillis<=0) return "已过期";
+        long remainMinutes = remainMillis / 1000 / 60;
+        long remainHours = (remainMinutes / 60);
+        return "剩余:"+String.valueOf(remainHours / 24) + "天" + String.valueOf(remainHours % 24) + "时" + String.valueOf(remainMinutes % 60) + "分";
+    }
+
     public void setCheck(int position,int check) {
         db.beginTransaction();
         db.execSQL("UPDATE "+
@@ -164,6 +172,9 @@ public class OperateData {
                     swapId(i,j);
                     adapter.notifyItemMoved(j,i);
                     adapter.notifyItemMoved(i+1,j);
+                    adapter.notifyItemChanged(i);
+                    adapter.notifyItemChanged(j);
+
                 }
             }
         }
@@ -176,6 +187,8 @@ public class OperateData {
                     swapId(i,j);
                     adapter.notifyItemMoved(j,i);
                     adapter.notifyItemMoved(i+1,j);
+                    adapter.notifyItemChanged(i);
+                    adapter.notifyItemChanged(j);
                 }
             }
         }

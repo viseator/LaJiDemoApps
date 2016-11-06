@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ConfigurationHelper;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -68,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener(){
 
             @Override
@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.sortbytime:
                         try {
                             db.sortDataByEndTime(adapter);
+                            recyclerView.scrollToPosition(0);
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
@@ -85,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.sortbyprimer:
                         try {
                             db.sortDataByPrimer(adapter);
+                            recyclerView.scrollToPosition(0);
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
@@ -112,6 +114,8 @@ public class MainActivity extends AppCompatActivity {
                 int to = target.getAdapterPosition();
                 db.swapId(from, to);
                 adapter.notifyItemMoved(from, to);
+                adapter.notifyItemChanged(from);
+                adapter.notifyItemChanged(to);
                 return true;
             }
 
