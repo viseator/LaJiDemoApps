@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DataBaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "data.db";
+    public static final String TABLE_NAME = "data";
     private static final int DATABASE_VERSION = 1;
 
     public DataBaseHelper(Context context) {
@@ -18,13 +19,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table if not exits ? (id integer primary key," +
+
+        db.execSQL("create table if not exists " + TABLE_NAME + " (id integer primary key," +
                 "content text," +
-                "time integer," +
-                "sep text," +
-                "on integer," +
+                "hour integer," +
+                "minute integer," +
+                "repeat text," +
+                "ison integer," +
                 "sound text" +
-                ")", new Object[]{DATABASE_NAME});
+                ")");
     }
 
     @Override

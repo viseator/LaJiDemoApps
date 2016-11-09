@@ -28,8 +28,5 @@ public class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
     }
 
-    protected void initViews() {
-        toolbar = (Toolbar) findViewById(R.id.all_toolbar);
-        toolbar.setTitle(R.string.app_name);
-    }
+
 }
