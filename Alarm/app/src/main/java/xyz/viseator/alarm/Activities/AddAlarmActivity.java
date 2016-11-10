@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TimePicker;
 
+import xyz.viseator.alarm.Alarm.SetAlarm;
 import xyz.viseator.alarm.BaseActivity;
 import xyz.viseator.alarm.DataBase.DataBaseHelper;
 import xyz.viseator.alarm.DataBase.DataBaseManager;
@@ -29,7 +30,6 @@ public class AddAlarmActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_alarm_layout);
         dataBaseManager = new DataBaseManager(this);
-
         initViews();
         setListeners();
 
@@ -41,6 +41,7 @@ public class AddAlarmActivity extends BaseActivity {
         timePicker.setIs24HourView(true);
         toolbar = (Toolbar) findViewById(R.id.add_toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_keyboard_backspace);
+        toolbar.setTitle(R.string.add_alarm);
         floatingActionButton = (FloatingActionButton) findViewById(R.id.add_finish_button);
     }
 
@@ -48,13 +49,9 @@ public class AddAlarmActivity extends BaseActivity {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    dataBaseManager.createData(timePicker.getHour(), timePicker.getMinute());
-                } else {
-                    dataBaseManager.createData(timePicker.getCurrentHour(), timePicker.getCurrentMinute());
-                }
+                dataBaseManager.createData(timePicker.getCurrentHour(), timePicker.getCurrentMinute());
+                new SetAlarm().setAlarm(AddAlarmActivity.this, getApplicationContext(), timePicker.getCurrentHour(), timePicker.getCurrentMinute());
                 finish();
-
             }
         });
 

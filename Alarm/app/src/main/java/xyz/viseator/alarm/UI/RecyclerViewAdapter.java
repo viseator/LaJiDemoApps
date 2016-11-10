@@ -1,4 +1,4 @@
-package xyz.viseator.alarm;
+package xyz.viseator.alarm.UI;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,13 +7,11 @@ import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Switch;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 import xyz.viseator.alarm.Activities.ChangeDataActivity;
 import xyz.viseator.alarm.DataBase.DataBaseManager;
+import xyz.viseator.alarm.R;
 
 /**
  * Created by viseator on 2016/11/9.

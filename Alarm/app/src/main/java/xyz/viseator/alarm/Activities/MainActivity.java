@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.StrictMode;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,7 +20,7 @@ import java.util.Date;
 import xyz.viseator.alarm.BaseActivity;
 import xyz.viseator.alarm.DataBase.DataBaseManager;
 import xyz.viseator.alarm.R;
-import xyz.viseator.alarm.RecyclerViewAdapter;
+import xyz.viseator.alarm.UI.RecyclerViewAdapter;
 
 /**
  * Created by viseator on 2016/11/8.
@@ -135,4 +134,9 @@ public class MainActivity extends BaseActivity {
         return simpleDateFormat.format(new Date());
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        db.close();
+    }
 }

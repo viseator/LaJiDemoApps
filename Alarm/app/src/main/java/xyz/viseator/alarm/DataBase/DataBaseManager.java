@@ -102,15 +102,16 @@ public class DataBaseManager {
 
     //为新元素设置ID并更改后面元素的ID
     private int setID(int hour, int minute) {
-        int total = hour * 24 + minute;
+        int total = hour * 60 + minute;
         for (int i = 0; i < count(); i++) {
-            if (total <= getHour(i) * 24 + getMin(i)) {
+            if (total <= getHour(i) * 60 + getMin(i)) {
                 adjustID(i);
                 return i;
             }
         }
         return count();
     }
+
 
 
     //从position后的所有行的id+1
@@ -144,6 +145,10 @@ public class DataBaseManager {
                 }
             }
         }
+    }
+
+    public void close() {
+        db.close();
     }
 
 }

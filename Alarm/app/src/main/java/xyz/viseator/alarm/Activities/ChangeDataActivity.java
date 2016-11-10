@@ -42,6 +42,7 @@ public class ChangeDataActivity extends BaseActivity {
         floatingActionButton = (FloatingActionButton) findViewById(R.id.add_finish_button);
         toolbar = (Toolbar) findViewById(R.id.add_toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_keyboard_backspace);
+        toolbar.setTitle(R.string.change_alarm);
     }
 
     private void setListeners() {
