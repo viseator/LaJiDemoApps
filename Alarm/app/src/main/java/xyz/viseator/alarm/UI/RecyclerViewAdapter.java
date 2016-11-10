@@ -1,5 +1,6 @@
 package xyz.viseator.alarm.UI;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import xyz.viseator.alarm.Activities.ChangeDataActivity;
+import xyz.viseator.alarm.Alarm.SetAlarm;
 import xyz.viseator.alarm.DataBase.DataBaseManager;
 import xyz.viseator.alarm.R;
 
@@ -20,11 +22,13 @@ import xyz.viseator.alarm.R;
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
     private DataBaseManager db;
-    Context context;
+    private Context context;
+    private Activity activity;
 
-    public RecyclerViewAdapter(DataBaseManager db, Context context) {
+    public RecyclerViewAdapter(DataBaseManager db, Context context, Activity activity) {
         this.db = db;
         this.context = context;
+        this.activity = activity;
     }
 
     @Override
@@ -41,6 +45,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             @Override
             public void onClick(View view) {
                 db.setIsOn(position, holder.swithForOpen.isChecked());
+                if (holder.swithForOpen.isChecked()) {
+                    new SetAlarm().setAlarm(activity,context,db.getHour(position),db.getMin(position),position);
+                }else {
+                    new SetAlarm().cancelAlarm(activity,context,db.getHour(position),db.getMin(position));
+                }
             }
         });
         holder.itemView.setOnClickListener(new View.OnClickListener() {

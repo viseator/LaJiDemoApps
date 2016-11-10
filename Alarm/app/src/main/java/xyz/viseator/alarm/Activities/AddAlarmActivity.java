@@ -49,8 +49,9 @@ public class AddAlarmActivity extends BaseActivity {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dataBaseManager.createData(timePicker.getCurrentHour(), timePicker.getCurrentMinute());
-                new SetAlarm().setAlarm(AddAlarmActivity.this, getApplicationContext(), timePicker.getCurrentHour(), timePicker.getCurrentMinute());
+                int id;
+                id = dataBaseManager.createData(timePicker.getCurrentHour(), timePicker.getCurrentMinute());
+                new SetAlarm().setAlarm(AddAlarmActivity.this, getApplicationContext(), timePicker.getCurrentHour(), timePicker.getCurrentMinute(),id);
                 finish();
             }
         });

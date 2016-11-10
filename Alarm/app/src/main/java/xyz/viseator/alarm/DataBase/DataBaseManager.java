@@ -16,16 +16,17 @@ public class DataBaseManager {
         db = dataBaseHelper.getWritableDatabase();
     }
 
-    public void createData(int hour, int minute) {
+    public int createData(int hour, int minute) {
         db.beginTransaction();
+        int id = setID(hour, minute);
         db.execSQL("insert into " + DataBaseHelper.TABLE_NAME +
                 " (id,hour,minute,ison) values (" +
-                String.valueOf(setID(hour, minute)) + "," +
+                String.valueOf(id) + "," +
                 String.valueOf(hour) + "," +
                 String.valueOf(minute) + ",1)");
         db.setTransactionSuccessful();
         db.endTransaction();
-
+        return id;
     }
 
     public void removeData(int position) {

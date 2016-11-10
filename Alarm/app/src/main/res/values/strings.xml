@@ -3,4 +3,7 @@
     <string name="add_alarm">添加闹钟</string>
     <string name="change_alarm">修改闹钟</string>
     <string name="set_content">备注</string>
+    <string name="notification_title">闹钟响了</string>
+    <string name="notification_content">蛤蛤蛤蛤蛤蛤蛤蛤</string>
+    <string name="stop_ring">停止闹钟</string>
 </resources>

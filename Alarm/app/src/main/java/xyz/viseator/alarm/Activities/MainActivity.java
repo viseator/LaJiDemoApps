@@ -53,7 +53,7 @@ public class MainActivity extends BaseActivity {
         timeNow = (TextView) findViewById(R.id.time_now_text);
         floatingActionButton = (FloatingActionButton) findViewById(R.id.main_add_button);
         recyclerView = (RecyclerView) findViewById(R.id.main_recyclerview);
-        recyclerViewAdapter = new RecyclerViewAdapter(db, this);
+        recyclerViewAdapter = new RecyclerViewAdapter(db, this,MainActivity.this);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(recyclerViewAdapter);

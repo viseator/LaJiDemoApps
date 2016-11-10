@@ -19,9 +19,8 @@ import xyz.viseator.alarm.DataBase.DataBaseManager;
 public class SetAlarm {
     private DataBaseManager db;
     private static long ONE_DAY = 24 * 60 * 60 * 1000;
-    private static int allAlarm = 0;
 
-    public void setAlarm(Activity activity, Context context, int hour, int min) {
+    public void setAlarm(Activity activity, Context context, int hour, int min,int id) {
         db = new DataBaseManager(context);
         int totalMinutes = hour * 60 + min;
         //现在时间
@@ -37,15 +36,31 @@ public class SetAlarm {
 
         Intent intent = new Intent(activity, AlarmReceiver.class);
         intent.setAction("xyz.viseator.Alarm");
-        PendingIntent sender = PendingIntent.getBroadcast(context, allAlarm++, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent sender = PendingIntent.getBroadcast(context, getID(hour,min), intent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarmManager = (AlarmManager) activity.getSystemService(Context.ALARM_SERVICE);
 
-        if (totalMinutes >= totalMinutesNow) {
-            Date date = timeToSet.getTime();
-            Log.d("wudi", date.toString());
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeToSet.getTimeInMillis(), sender);
-        } else {
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeToSet.getTimeInMillis() + ONE_DAY, sender);
+        if (db.getIsOn(id)) {
+            if (totalMinutes >= totalMinutesNow) {
+                Date date = timeToSet.getTime();
+                Log.d("wudi", date.toString());
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeToSet.getTimeInMillis(), sender);
+            } else {
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeToSet.getTimeInMillis() + ONE_DAY, sender);
+            }
         }
+
+    }
+
+    public void cancelAlarm(Activity activity, Context context, int hour, int min) {
+        Intent intent = new Intent(activity, AlarmReceiver.class);
+        intent.setAction("xyz.viseator.Alarm");
+        PendingIntent sender = PendingIntent.getBroadcast(context, getID(hour,min), intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarmManager = (AlarmManager) activity.getSystemService(Context.ALARM_SERVICE);
+        alarmManager.cancel(sender);
+        Log.d("wudi", "canceled");
+    }
+
+    private int getID(int hour, int min) {
+        return hour * 60 + min;
     }
 }
