@@ -6,4 +6,5 @@
     <string name="notification_title">闹钟响了</string>
     <string name="notification_content">蛤蛤蛤蛤蛤蛤蛤蛤</string>
     <string name="stop_ring">停止闹钟</string>
+    <string name="custom_song">自定义铃声</string>
 </resources>

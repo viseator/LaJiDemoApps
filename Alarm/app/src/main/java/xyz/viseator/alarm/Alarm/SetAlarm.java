@@ -35,6 +35,7 @@ public class SetAlarm {
         timeToSet.set(Calendar.SECOND, 0);
 
         Intent intent = new Intent(activity, AlarmReceiver.class);
+        intent.putExtra("ID", db.findIDbyTime(hour, min));
         intent.setAction("xyz.viseator.Alarm");
         PendingIntent sender = PendingIntent.getBroadcast(context, getID(hour,min), intent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarmManager = (AlarmManager) activity.getSystemService(Context.ALARM_SERVICE);

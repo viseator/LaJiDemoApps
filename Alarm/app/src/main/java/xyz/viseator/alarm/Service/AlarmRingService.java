@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * Created by viseator on 2016/11/10.
@@ -19,6 +20,7 @@ import java.io.IOException;
 public class AlarmRingService extends Service {
     private String song;
     private MediaPlayer mediaPlayer;
+    private Vibrator vibrator;
 
     @Nullable
     @Override
@@ -33,9 +35,15 @@ public class AlarmRingService extends Service {
         mediaPlayer.reset();
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
         try {
-            assetFileDescriptor = this.getAssets().openFd(song);
-            mediaPlayer.setDataSource(assetFileDescriptor.getFileDescriptor(),
-                    assetFileDescriptor.getStartOffset(), assetFileDescriptor.getLength());
+
+            if (Objects.equals(song, "default")) {
+                song = "everybody.mp3";
+                assetFileDescriptor = this.getAssets().openFd(song);
+                mediaPlayer.setDataSource(assetFileDescriptor.getFileDescriptor(),
+                        assetFileDescriptor.getStartOffset(), assetFileDescriptor.getLength());
+            } else {
+                mediaPlayer.setDataSource(song);
+            }
             mediaPlayer.setVolume(0.2f, 0.2f);
             mediaPlayer.setLooping(true);
             mediaPlayer.prepare();
@@ -54,8 +62,12 @@ public class AlarmRingService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        song = "everybody.mp3";
+
+        song = intent.getStringExtra("Path");
+        Log.d("wudi Path", song);
         ringAlarm(song);
+        vibrator = (Vibrator) getSystemService(Service.VIBRATOR_SERVICE);
+        vibrator.vibrate(new long[]{400, 800}, 0);
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -63,5 +75,7 @@ public class AlarmRingService extends Service {
     public void onDestroy() {
         super.onDestroy();
         stopAlarm();
+        vibrator.cancel();
     }
+
 }

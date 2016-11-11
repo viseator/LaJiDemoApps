@@ -17,6 +17,8 @@ import android.util.Log;
 import android.view.WindowManager;
 
 import xyz.viseator.alarm.Activities.ShowAlarmActivity;
+import xyz.viseator.alarm.DataBase.DataBaseHelper;
+import xyz.viseator.alarm.DataBase.DataBaseManager;
 import xyz.viseator.alarm.R;
 import xyz.viseator.alarm.Service.AlarmRingService;
 
@@ -28,26 +30,26 @@ public class AlarmReceiver extends BroadcastReceiver {
     private Context context;
     private NotificationCompat.Builder builder;
     private NotificationManager manager;
+    private int id;
+    private DataBaseManager db;
 
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.d("wudi", "GOT!");
+        id = intent.getIntExtra("ID", -1);
+        Log.d("wudi id", String.valueOf(id));
         this.context = context;
+        db = new DataBaseManager(context);
         showNotification();
         startService();
-        wakePhoneAndUnlock();
+        wakePhone();
 
     }
 
-    //点亮屏幕并解锁
-    private void wakePhoneAndUnlock() {
+    private void wakePhone() {
         PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
         PowerManager.WakeLock mWakelock = pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.SCREEN_DIM_WAKE_LOCK, "wudi");
         mWakelock.acquire();//唤醒屏幕
-        KeyguardManager mManager = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
-        KeyguardManager.KeyguardLock mKeyguardLock = mManager.newKeyguardLock("Lock");
-        //让键盘锁失效
-        mKeyguardLock.disableKeyguard();
     }
 
 
@@ -66,6 +68,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     private void startService() {
         Intent service = new Intent(context, AlarmRingService.class);
+        service.putExtra("Path", db.getPath(id));
         context.startService(service);
     }
 }

@@ -27,12 +27,26 @@
         android:layout_height="wrap_content">
 
     </TimePicker>
+
     <android.support.v7.widget.CardView
-        android:layout_alignParentBottom="true"
+        android:id="@+id/set_custom_ring"
+        android:clickable="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="50dp"
+        android:layout_margin="20dp"
+        app:cardElevation="4dp"
+        app:cardCornerRadius="4dp"
+        android:layout_below="@+id/time_picker">
+
+        <TextView
+            android:id="@+id/custom_ring_text"
+            android:layout_gravity="center"
+            android:text="@string/custom_song"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
     </android.support.v7.widget.CardView>
+
 
 
     <android.support.design.widget.FloatingActionButton

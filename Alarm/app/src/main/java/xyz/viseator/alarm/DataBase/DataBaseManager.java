@@ -16,14 +16,15 @@ public class DataBaseManager {
         db = dataBaseHelper.getWritableDatabase();
     }
 
-    public int createData(int hour, int minute) {
+    public int createData(int hour, int minute, String songPath) {
         db.beginTransaction();
         int id = setID(hour, minute);
         db.execSQL("insert into " + DataBaseHelper.TABLE_NAME +
-                " (id,hour,minute,ison) values (" +
+                " (id,hour,minute,sound,ison) values (" +
                 String.valueOf(id) + "," +
                 String.valueOf(hour) + "," +
-                String.valueOf(minute) + ",1)");
+                String.valueOf(minute) + "," +
+                "'" + songPath + "'" + ",1)");
         db.setTransactionSuccessful();
         db.endTransaction();
         return id;
@@ -41,14 +42,14 @@ public class DataBaseManager {
     }
 
 
-    public void updateData(int position, int hour, int minute) {
+    public void updateData(int position, int hour, int minute, String filePath) {
         db.beginTransaction();
         db.execSQL("UPDATE " + DataBaseHelper.TABLE_NAME +
-                        " SET hour = " + String.valueOf(hour) + "," +
-                        "minute = " + String.valueOf(minute) + "," +
-                        "ison = 1" +
-//                "id = " + String.valueOf(changeID(hour, minute)) +
-                        " WHERE id = " + String.valueOf(position)
+                " SET hour = " + String.valueOf(hour) + "," +
+                "minute = " + String.valueOf(minute) + "," +
+                "ison = 1" + "," +
+                "sound = '" + filePath + "'" +
+                " WHERE id = " + String.valueOf(position)
         );
         db.setTransactionSuccessful();
         db.endTransaction();
@@ -78,6 +79,22 @@ public class DataBaseManager {
         int min = c.getInt(c.getColumnIndex("minute"));
         c.close();
         return min;
+    }
+
+    public String getPath(int position) {
+        Cursor c = db.rawQuery("SELECT * FROM " + DataBaseHelper.TABLE_NAME + " WHERE id = ?", new String[]{String.valueOf(position)});
+        c.moveToFirst();
+        String sound = c.getString(c.getColumnIndex("sound"));
+        c.close();
+        return sound;
+    }
+
+    public int findIDbyTime(int hour, int min) {
+        Cursor c = db.rawQuery("SELECT * FROM " + DataBaseHelper.TABLE_NAME + " WHERE hour = " + String.valueOf(hour) + " AND minute = " + String.valueOf(min), null);
+        c.moveToFirst();
+        int id = c.getInt(c.getColumnIndex("id"));
+        c.close();
+        return id;
     }
 
     public int getTotalMinutes(int position) {
@@ -112,7 +129,6 @@ public class DataBaseManager {
         }
         return count();
     }
-
 
 
     //从position后的所有行的id+1
