@@ -1,0 +1,1 @@
+package xyz.viseator.v2ex.data;import java.net.URL;/** * Created by viseator on 2016/11/17. */public class Content {    private int id;    private String title;    private URL url;    private String content;    private String content_rendered;    private int replies;    private class member {        private int id;        private String username;    }}
