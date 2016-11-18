@@ -16,7 +16,7 @@ import android.view.WindowManager;
 public class BaseActivity extends AppCompatActivity {
     protected Toolbar toolbar;
 
-    protected void setStatusBar(Activity activity){
+    protected void setStatusBar(Activity activity) {
         Window window = activity.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);

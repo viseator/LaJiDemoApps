@@ -44,6 +44,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.swithForOpen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 db.setIsOn(position, holder.swithForOpen.isChecked());
                 if (holder.swithForOpen.isChecked()) {
                     new SetAlarm().setAlarm(activity,context,db.getHour(position),db.getMin(position),position);

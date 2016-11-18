@@ -1,23 +1,16 @@
 package xyz.viseator.alarm.Alarm;
 
-import android.app.KeyguardManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.PowerManager;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
-import android.view.WindowManager;
 
 import xyz.viseator.alarm.Activities.ShowAlarmActivity;
-import xyz.viseator.alarm.DataBase.DataBaseHelper;
 import xyz.viseator.alarm.DataBase.DataBaseManager;
 import xyz.viseator.alarm.R;
 import xyz.viseator.alarm.Service.AlarmRingService;
@@ -32,17 +25,18 @@ public class AlarmReceiver extends BroadcastReceiver {
     private NotificationManager manager;
     private int id;
     private DataBaseManager db;
+    private static final String TAG = "wudi";
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.d("wudi", "GOT!");
+        Log.d(TAG, "GOT!");
         id = intent.getIntExtra("ID", -1);
         Log.d("wudi id", String.valueOf(id));
         this.context = context;
         db = new DataBaseManager(context);
-        showNotification();
-        startService();
-        wakePhone();
+        showNotification();//显示通知
+        startService();//开启响铃服务
+        wakePhone();//点亮屏幕
 
     }
 
@@ -63,12 +57,12 @@ public class AlarmReceiver extends BroadcastReceiver {
                 .setContentIntent(pi).setVisibility(Notification.VISIBILITY_PUBLIC);
 
         manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        manager.notify(0,builder.build());
+        manager.notify(0, builder.build());
     }
 
     private void startService() {
         Intent service = new Intent(context, AlarmRingService.class);
-        service.putExtra("Path", db.getPath(id));
+        service.putExtra("Path", db.getPath(id));//转入铃声路径
         context.startService(service);
     }
 }

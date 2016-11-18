@@ -2,20 +2,17 @@ package xyz.viseator.alarm.Activities;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
 import xyz.viseator.alarm.Alarm.SetAlarm;
 import xyz.viseator.alarm.BaseActivity;
-import xyz.viseator.alarm.DataBase.DataBaseHelper;
 import xyz.viseator.alarm.DataBase.DataBaseManager;
 import xyz.viseator.alarm.R;
 
@@ -57,22 +54,23 @@ public class AddAlarmActivity extends BaseActivity {
     }
 
     private void setListeners() {
+        //确定设置闹钟
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int id;
+                int id;//获取计算出的id
                 id = dataBaseManager.createData(timePicker.getCurrentHour(), timePicker.getCurrentMinute(), filePath);
+                //设置系统定时任务
                 new SetAlarm().setAlarm(AddAlarmActivity.this, getApplicationContext(), timePicker.getCurrentHour(), timePicker.getCurrentMinute(), id);
                 finish();
             }
         });
-
+        //选择自定义铃声文件
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("audio/*");
-                intent.addCategory(Intent.CATEGORY_OPENABLE);
                 startActivityForResult(intent, PICK_CONTENT_CODE);
             }
         });
@@ -86,6 +84,8 @@ public class AddAlarmActivity extends BaseActivity {
         });
     }
 
+
+    //获取路径并储存
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
@@ -93,7 +93,7 @@ public class AddAlarmActivity extends BaseActivity {
             filePath = uri.getPath();
             for (int i = filePath.length() - 1; i >= 0; i--) {
                 if (filePath.charAt(i) == '/') {
-                    textView.setText(filePath.substring(i+1));
+                    textView.setText(filePath.substring(i + 1));
                     break;
                 }
             }

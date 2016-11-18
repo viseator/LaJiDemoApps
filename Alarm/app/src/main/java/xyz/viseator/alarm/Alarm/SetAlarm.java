@@ -20,7 +20,7 @@ public class SetAlarm {
     private DataBaseManager db;
     private static long ONE_DAY = 24 * 60 * 60 * 1000;
 
-    public void setAlarm(Activity activity, Context context, int hour, int min,int id) {
+    public void setAlarm(Activity activity, Context context, int hour, int min, int id) {
         db = new DataBaseManager(context);
         int totalMinutes = hour * 60 + min;
         //现在时间
@@ -33,14 +33,15 @@ public class SetAlarm {
         timeToSet.set(Calendar.HOUR_OF_DAY, hour);
         timeToSet.set(Calendar.MINUTE, min);
         timeToSet.set(Calendar.SECOND, 0);
-
+        //设置定时任务
         Intent intent = new Intent(activity, AlarmReceiver.class);
         intent.putExtra("ID", db.findIDbyTime(hour, min));
         intent.setAction("xyz.viseator.Alarm");
-        PendingIntent sender = PendingIntent.getBroadcast(context, getID(hour,min), intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent sender = PendingIntent.getBroadcast(context, getID(hour, min), intent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarmManager = (AlarmManager) activity.getSystemService(Context.ALARM_SERVICE);
-
+        //判断闹钟是否开启
         if (db.getIsOn(id)) {
+            //如果设置的时间早于当前时间，将时间推迟一天
             if (totalMinutes >= totalMinutesNow) {
                 Date date = timeToSet.getTime();
                 Log.d("wudi", date.toString());
@@ -55,12 +56,13 @@ public class SetAlarm {
     public void cancelAlarm(Activity activity, Context context, int hour, int min) {
         Intent intent = new Intent(activity, AlarmReceiver.class);
         intent.setAction("xyz.viseator.Alarm");
-        PendingIntent sender = PendingIntent.getBroadcast(context, getID(hour,min), intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent sender = PendingIntent.getBroadcast(context, getID(hour, min), intent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarmManager = (AlarmManager) activity.getSystemService(Context.ALARM_SERVICE);
         alarmManager.cancel(sender);
         Log.d("wudi", "canceled");
     }
 
+    //根据时间找到id
     private int getID(int hour, int min) {
         return hour * 60 + min;
     }

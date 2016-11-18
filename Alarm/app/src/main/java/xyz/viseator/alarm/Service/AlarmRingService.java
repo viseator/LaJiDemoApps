@@ -35,16 +35,17 @@ public class AlarmRingService extends Service {
         mediaPlayer.reset();
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
         try {
-
+            //如果是默认铃声
             if (Objects.equals(song, "default")) {
                 song = "everybody.mp3";
                 assetFileDescriptor = this.getAssets().openFd(song);
                 mediaPlayer.setDataSource(assetFileDescriptor.getFileDescriptor(),
                         assetFileDescriptor.getStartOffset(), assetFileDescriptor.getLength());
             } else {
+
                 mediaPlayer.setDataSource(song);
             }
-            mediaPlayer.setVolume(0.2f, 0.2f);
+            mediaPlayer.setVolume(0.5f, 1f);
             mediaPlayer.setLooping(true);
             mediaPlayer.prepare();
             mediaPlayer.start();
@@ -59,7 +60,7 @@ public class AlarmRingService extends Service {
             mediaPlayer.release();
         }
     }
-
+    //开启服务时
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 

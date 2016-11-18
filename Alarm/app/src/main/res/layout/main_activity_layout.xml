@@ -21,6 +21,7 @@
         </android.support.v7.widget.Toolbar>
 
         <TextView
+            tools:text="Test"
             android:id="@+id/time_now_text"
             android:layout_width="match_parent"
             android:layout_height="70dp"
@@ -33,6 +34,7 @@
 
 
     <android.support.v7.widget.RecyclerView
+        tools:listitem="@layout/recyclerview_content_layout"
         android:id="@+id/main_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

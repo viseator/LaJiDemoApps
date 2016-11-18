@@ -34,6 +34,7 @@ public class MainActivity extends BaseActivity {
     private DataBaseManager db;
     private ItemTouchHelper itemTouchHelper;
     private TextView timeNow;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,8 +43,8 @@ public class MainActivity extends BaseActivity {
         db = new DataBaseManager(this);
         initViews();
         setListeners();
-        setItemSwipeAction();
-        new ShowTimeThread().start();
+        setItemSwipeAction();//滑动删除
+        new ShowTimeThread().start();//当前时间显示进程
 
     }
 
@@ -53,7 +54,7 @@ public class MainActivity extends BaseActivity {
         timeNow = (TextView) findViewById(R.id.time_now_text);
         floatingActionButton = (FloatingActionButton) findViewById(R.id.main_add_button);
         recyclerView = (RecyclerView) findViewById(R.id.main_recyclerview);
-        recyclerViewAdapter = new RecyclerViewAdapter(db, this,MainActivity.this);
+        recyclerViewAdapter = new RecyclerViewAdapter(db, this, MainActivity.this);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(recyclerViewAdapter);
@@ -67,6 +68,7 @@ public class MainActivity extends BaseActivity {
         recyclerViewAdapter.notifyDataSetChanged();
     }
 
+    //增加闹钟
     private void setListeners() {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,7 +84,8 @@ public class MainActivity extends BaseActivity {
     private void setItemSwipeAction() {
         itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
-            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,
+                                  RecyclerView.ViewHolder target) {
                 return false;
             }
 
@@ -92,9 +95,10 @@ public class MainActivity extends BaseActivity {
                 db.removeData(position);
                 recyclerViewAdapter.notifyItemRemoved(position);
             }
-
+            //透明动画
             @Override
-            public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+            public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,
+                                    float dX, float dY, int actionState, boolean isCurrentlyActive) {
                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
                 if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
                     final float alpha = 1 - Math.abs(dX) / (float) viewHolder.itemView.getWidth();
@@ -105,18 +109,18 @@ public class MainActivity extends BaseActivity {
         });
         itemTouchHelper.attachToRecyclerView(recyclerView);
     }
-
-    private Handler handler = new Handler(){
+    //进程
+    private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             timeNow.setText(getTime("HH:mm"));
         }
     };
-
+    //显示当前时间
     public class ShowTimeThread extends Thread {
         @Override
-        public void run(){
+        public void run() {
             while (true) {
                 try {
                     Thread.sleep(1000);
@@ -129,6 +133,7 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    //获取当前时间
     private String getTime(String format) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
         return simpleDateFormat.format(new Date());

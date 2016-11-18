@@ -53,7 +53,9 @@ public class ChangeDataActivity extends BaseActivity {
         toolbar.setTitle(R.string.change_alarm);
         textView = (TextView) findViewById(R.id.custom_ring_text);
         cardView = (CardView) findViewById(R.id.set_custom_ring);
+        //获得自定义铃声路径
         filePath = db.getPath(position);
+        //截取文件名并显示
         for (int i = filePath.length() - 1; i >= 0; i--) {
             if (filePath.charAt(i) == '/') {
                 textView.setText(filePath.substring(i + 1));
@@ -63,6 +65,7 @@ public class ChangeDataActivity extends BaseActivity {
     }
 
     private void setListeners() {
+        //确定修改
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,10 +81,11 @@ public class ChangeDataActivity extends BaseActivity {
                 finish();
             }
         });
-
+        //自定义铃声
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //发送广播
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("audio/*");
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
@@ -89,7 +93,7 @@ public class ChangeDataActivity extends BaseActivity {
             }
         });
     }
-
+    //获得返回的文件路径
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             Uri uri = data.getData();
