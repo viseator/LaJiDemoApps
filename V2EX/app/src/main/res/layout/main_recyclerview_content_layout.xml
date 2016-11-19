@@ -42,7 +42,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="7dp"
                 tools:text="换个角度看前端：你是怎么应对拧巴的兼容性问题"
-                android:textSize="18sp"
+                android:textSize="20sp"
                 android:textColor="@color/Black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
