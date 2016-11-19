@@ -46,7 +46,6 @@ public class DetailRecyclerViewAdapter extends
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-
     }
 
     @Override
