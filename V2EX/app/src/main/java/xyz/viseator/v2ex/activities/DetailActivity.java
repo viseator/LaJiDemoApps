@@ -4,12 +4,14 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import xyz.viseator.v2ex.BaseActivity;
 import xyz.viseator.v2ex.R;
 import xyz.viseator.v2ex.http.GetAvatarTask;
+import xyz.viseator.v2ex.http.GetHTMLMainContentTask;
 import xyz.viseator.v2ex.ui.DetailRecyclerViewAdapter;
 
 /**
@@ -22,6 +24,7 @@ public class DetailActivity extends BaseActivity {
     private TextView usernameTextView;
     private TextView timeTextView;
     private TextView titleTextView;
+    private static final String TAG = "wudi DetailActivity";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,9 +34,6 @@ public class DetailActivity extends BaseActivity {
     }
 
     private void initView() {
-        recyclerView = (RecyclerView) findViewById(R.id.detail_recyclerview);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new DetailRecyclerViewAdapter(this));
         avatarImageView = (ImageView) findViewById(R.id.detail_avatar);
         usernameTextView = (TextView) findViewById(R.id.detail_creator_name);
         timeTextView = (TextView) findViewById(R.id.detail_time);
@@ -42,5 +42,10 @@ public class DetailActivity extends BaseActivity {
         usernameTextView.setText(getIntent().getStringExtra("name"));
         titleTextView.setText(getIntent().getStringExtra("title"));
 //        timeTextView.setText(getIntent().getStringExtra("time"));
+        recyclerView = (RecyclerView) findViewById(R.id.detail_recyclerview);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        Log.d(TAG, getIntent().getStringExtra("URL"));
+        new GetHTMLMainContentTask(recyclerView, this).execute(getIntent().getStringExtra("URL"));
+
     }
 }

@@ -7,7 +7,7 @@
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="180dp"
+        android:layout_height="wrap_content"
         app:cardElevation="4dp"
         android:layout_marginTop="10dp">
 
@@ -69,7 +69,8 @@
                 android:textColor="@color/DimGray"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
+                android:layout_below="@+id/content"
+
                 />
 
             <TextView
@@ -79,7 +80,7 @@
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@+id/content_reply"
                 android:layout_alignBottom="@+id/content_reply"
-                android:layout_marginLeft="2dp"
+                android:layout_marginStart="2dp"
                 />
 
         </RelativeLayout>

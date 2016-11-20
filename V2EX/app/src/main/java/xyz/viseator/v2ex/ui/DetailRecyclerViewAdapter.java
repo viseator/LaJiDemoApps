@@ -8,7 +8,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.List;
+
 import xyz.viseator.v2ex.R;
+import xyz.viseator.v2ex.data.DetailContent;
 
 /**
  * Created by viseator on 2016/11/19.
@@ -18,8 +21,11 @@ public class DetailRecyclerViewAdapter extends
         RecyclerView.Adapter<DetailRecyclerViewAdapter.ViewHolder> {
 
     private Context context;
-    public DetailRecyclerViewAdapter(Context context) {
+    private List<DetailContent> detailContents;
+
+    public DetailRecyclerViewAdapter(Context context,List<DetailContent> detailContents) {
         this.context = context;
+        this.detailContents = detailContents;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -33,7 +39,7 @@ public class DetailRecyclerViewAdapter extends
             avatarImageView = (ImageView) itemView.findViewById(R.id.detail_recyclerview_avatar);
             usernameTextView = (TextView) itemView.findViewById(R.id.detail_user);
             timeTextView = (TextView) itemView.findViewById(R.id.detail_time);
-            contentTextView = (TextView) timeTextView.findViewById(R.id.detail_content);
+            contentTextView = (TextView) itemView.findViewById(R.id.detail_content);
 
         }
     }
@@ -46,10 +52,13 @@ public class DetailRecyclerViewAdapter extends
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        if (position == 0) {
+            holder.contentTextView.setText(detailContents.get(position).getContent());
+        }
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return detailContents.size();
     }
 }
