@@ -19,10 +19,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.DetailActivity" />
-        <activity
-            android:name=".test.ScrollingActivity"
-            android:label="@string/title_activity_scrolling"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

@@ -4,7 +4,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,6 +26,7 @@ public class DetailActivity extends BaseActivity {
     private TextView usernameTextView;
     private TextView timeTextView;
     private TextView titleTextView;
+    private Toolbar toolbar;
     private static final String TAG = "wudi DetailActivity";
 
     @Override
@@ -38,6 +41,14 @@ public class DetailActivity extends BaseActivity {
         usernameTextView = (TextView) findViewById(R.id.detail_creator_name);
         timeTextView = (TextView) findViewById(R.id.detail_time);
         titleTextView = (TextView) findViewById(R.id.detail_title_textview);
+        toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
+        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_close));
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         new GetAvatarTask(avatarImageView).execute(getIntent().getStringExtra("avatarURL"));
         usernameTextView.setText(getIntent().getStringExtra("name"));
         titleTextView.setText(getIntent().getStringExtra("title"));
