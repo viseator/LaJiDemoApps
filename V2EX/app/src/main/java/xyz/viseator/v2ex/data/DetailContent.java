@@ -7,17 +7,17 @@ import java.util.List;
  */
 
 public class DetailContent {
-    private long time;
+    private String time;
     private String name;
     private List<String> ps;
     private String content;
     private String avatarURL;
 
-    public long getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(long time) {
+    public void setTime(String time) {
         this.time = time;
     }
 
