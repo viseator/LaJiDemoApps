@@ -13,8 +13,7 @@ import android.widget.TextView;
 import xyz.viseator.v2ex.BaseActivity;
 import xyz.viseator.v2ex.R;
 import xyz.viseator.v2ex.http.GetAvatarTask;
-import xyz.viseator.v2ex.http.GetHTMLMainContentTask;
-import xyz.viseator.v2ex.ui.DetailRecyclerViewAdapter;
+import xyz.viseator.v2ex.http.GetHtmlDetailTask;
 
 /**
  * Created by viseator on 2016/11/19.
@@ -56,7 +55,7 @@ public class DetailActivity extends BaseActivity {
         recyclerView = (RecyclerView) findViewById(R.id.detail_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         Log.d(TAG, getIntent().getStringExtra("URL"));
-        new GetHTMLMainContentTask(recyclerView, this).execute(getIntent().getStringExtra("URL"));
+        new GetHtmlDetailTask(recyclerView, this).execute(getIntent().getStringExtra("URL"));
 
     }
 }

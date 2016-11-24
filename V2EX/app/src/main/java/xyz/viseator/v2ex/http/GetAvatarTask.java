@@ -36,7 +36,8 @@ public class GetAvatarTask extends AsyncTask<String, Void, Bitmap> {
             inputStream.close();
             return bitmap;
         } catch (IOException e) {
-            Log.d(TAG, "URL error");
+
+            Log.d(TAG, "URL error:" + url);
             e.printStackTrace();
         }
         return null;

@@ -97,4 +97,6 @@
     <string name="di">第</string>
     <string name="latest">最新</string>
     <string name="hotest">最热</string>
+    <string name="programmer">程序员</string>
+    <string name="android">安卓</string>
 </resources>
