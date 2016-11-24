@@ -95,4 +95,6 @@
     <string name="mainPage">主题</string>
     <string name="lou">楼</string>
     <string name="di">第</string>
+    <string name="latest">最新</string>
+    <string name="hotest">最热</string>
 </resources>
