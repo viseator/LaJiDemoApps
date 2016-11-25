@@ -25,6 +25,7 @@ public class DetailRecyclerViewAdapter extends
     private Context context;
     private List<DetailContent> detailContents;
 
+
     public DetailRecyclerViewAdapter(Context context, List<DetailContent> detailContents) {
         this.context = context;
         this.detailContents = detailContents;
@@ -59,7 +60,7 @@ public class DetailRecyclerViewAdapter extends
             holder.contentTextView.setText(detailContents.get(position).getContent());
         } else {
             holder.contentTextView.setText(detailContents.get(position).getContent());
-            holder.contentTextView.setPadding(dpToPx(45),0,0,0);
+            holder.contentTextView.setPadding(dpToPx(45), 0, 0, 0);
             new GetAvatarTask(holder.avatarImageView).execute(detailContents.get(position).getAvatarURL());
             holder.usernameTextView.setText(detailContents.get(position).getName());
             holder.timeTextView.setText(detailContents.get(position).getTime());
@@ -76,4 +77,13 @@ public class DetailRecyclerViewAdapter extends
     public static int dpToPx(int dp) {
         return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
+
+    public List<DetailContent> getDetailContents() {
+        return detailContents;
+    }
+
+    public void setDetailContents(List<DetailContent> detailContents) {
+        this.detailContents = detailContents;
+    }
+
 }
